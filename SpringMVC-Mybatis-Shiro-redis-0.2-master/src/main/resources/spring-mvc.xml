@@ -124,9 +124,8 @@
 		</property>
 		<property name="defaultEncoding">
 			<value>utf-8</value>
-		</property>
-        <property name="freemarkerSettings" ref="freemarkConfig"/>  
-		
+		</property>		
+   	      <property name="freemarkerSettings" ref="freemarkConfig"/>  	 		
 	</bean>
 	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
 	<!--===============通用视图解析器 end===============-->
