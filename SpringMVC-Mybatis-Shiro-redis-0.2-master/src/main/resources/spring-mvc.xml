@@ -107,6 +107,10 @@
 
 
 	<!-- 配置freeMarker 拓展-->
+    <bean id="freemarkConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
+        <property name="location" value="classpath:freemark.properties"/>  
+    </bean>  
+    	
 	<bean id="freemarkerConfig"
 		class="com.sojson.core.freemarker.extend.FreeMarkerConfigExtend">
 		<property name="templateLoaderPath">
@@ -121,26 +125,8 @@
 		<property name="defaultEncoding">
 			<value>utf-8</value>
 		</property>
-		<property name="freemarkerSettings">
-			<props><!-- 315360000 -->
-					<prop key="template_update_delay">0</prop>
-					<prop key="defaultEncoding">UTF-8</prop>
-					<prop key="url_escaping_charset">UTF-8</prop>
-					<prop key="locale">zh_CN</prop>
-					<prop key="boolean_format">true,false</prop>
-					<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
-					<prop key="date_format">yyyy-MM-dd</prop>
-					<prop key="time_format">HH:mm:ss</prop>
-	<!--			<prop key="number_format">0.######</prop>-->
-				<prop key="number_format">#</prop>
-				<prop key="whitespace_stripping">true</prop>
-				<prop key="auto_import">
-					<!-- 自动装载，引入Freemarker，用于Freemarker Macro引入 -->
-					/common/config/top.ftl as _top,
-					/common/config/left.ftl as _left
-				</prop>
-			</props>
-		</property>
+        <property name="freemarkerSettings" ref="freemarkConfig"/>  
+		
 	</bean>
 	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
 	<!--===============通用视图解析器 end===============-->
