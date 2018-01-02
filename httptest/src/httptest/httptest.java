@@ -63,7 +63,7 @@ public class httptest {
 				
 				String aaaa = null;
 				try {
-					aaaa = HttpPostUtils.doPostRequest("login", "username="+URLEncoder.encode("ÎâÒúÉú", "utf-8")+"&password=111111");
+					aaaa = HttpPostUtils.doPostRequest("shiro.demo/lightlogin", "username="+URLEncoder.encode("ÎâÒúÉú", "utf-8")+"&password=111111");
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
