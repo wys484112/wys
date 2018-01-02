@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 命名空间 设置别名-->
+
+    <typeAliases>
+
+        <typeAlias alias="User" type="com.example.sql.model.RunoobTbl"/>
+
+    </typeAliases>
+
+ 
+
+    <!-- 映射map 指定映射文件-->
+
+    <mappers>
+
+        <mapper resource="com/example/sql/mapping/RunoobTblMapper.xml"></mapper>
+        <mapper resource="com/example/sql/mapping/UserMapper.xml"></mapper>
+        <mapper resource="com/example/sql/mapping/SettingsInfoMapper.xml"></mapper>
+        <mapper resource="com/example/sql/mapping/RepairInfoMapper.xml"></mapper>
+        <mapper resource="com/example/sql/mapping/ProductInfoMapper.xml"></mapper>
+
+    </mappers>
+
+</configuration>

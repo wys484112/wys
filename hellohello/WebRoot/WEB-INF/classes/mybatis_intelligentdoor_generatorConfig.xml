@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry  
+            location="E:\mvn\repository\mysql\mysql-connector-java\5.1.35\mysql-connector-java-5.1.35.jar"/> 
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://172.16.3.102:3306/viroyal_Intelligent_Door" driverClass="com.mysql.jdbc.Driver" password="test" userId="test" />
+    <javaModelGenerator targetPackage="com.example.sql.model" targetProject="hellohello" />
+    <sqlMapGenerator targetPackage="com.example.sql.mapping" targetProject="hellohello" />
+    <javaClientGenerator targetPackage="com.example.sql.dao" targetProject="hellohello" type="XMLMAPPER" />
+    <table schema="" tableName="user">
+    </table>
+    <table schema="" tableName="product_info">
+    </table>
+    <table schema="" tableName="repair_info">
+    </table>
+    <table schema="" tableName="settings_info">
+    </table>                       
+  </context>
+</generatorConfiguration>
