@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class QueryDeviceCapabilities {
 
-	public static void QueryDeviceCapabilities() throws Exception {
+	public static String QueryDeviceCapabilities() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -28,8 +28,8 @@ public class QueryDeviceCapabilities {
         String urlQueryDeviceCapabilities = Constant.QUERY_DEVICE_CAPABILITIES;
 
         //please replace the deviceId and gatewayId, when you use the demo.
-        String deviceId = "9a445dda-f62e-4c78-be05-ef0f0c1b447a";
-        String gatewayId = "9a445dda-f62e-4c78-be05-ef0f0c1b447a";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
+        String gatewayId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
 
         Map<String, String> paramQueryDeviceCapabilities = new HashMap<>();
         paramQueryDeviceCapabilities.put("deviceId", deviceId);
@@ -46,6 +46,7 @@ public class QueryDeviceCapabilities {
         System.out.print(bodyQueryDeviceCapabilities.getStatusLine());
         System.out.println(bodyQueryDeviceCapabilities.getContent());
         System.out.println();
+        return bodyQueryDeviceCapabilities.getContent();
     }
 
     /**

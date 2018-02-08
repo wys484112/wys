@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class QueryDevices {
 
-    public static void QueryDevices() throws Exception {
+    public static String QueryDevices() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -47,6 +47,8 @@ public class QueryDevices {
         System.out.print(bodyQueryDevices.getStatusLine());
         System.out.println(bodyQueryDevices.getContent());
         System.out.println();
+        return bodyQueryDevices.getContent();
+
     }
 
     /**

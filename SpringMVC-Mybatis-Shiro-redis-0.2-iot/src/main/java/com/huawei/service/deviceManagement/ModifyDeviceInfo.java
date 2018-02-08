@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class ModifyDeviceInfo {
 
-	public static void ModifyDeviceInfo() throws Exception {
+	public static String ModifyDeviceInfo() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -27,7 +27,7 @@ public class ModifyDeviceInfo {
 		String appId = Constant.APPID;
 
         //please replace the deviceId, when you use the demo.
-        String deviceId = "8c23b6b4-ea68-48fb-9c2f-90452a81ebb1";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
         String urlModifyDeviceInfo = Constant.MODIFY_DEVICE_INFO + "/" + deviceId;
 
         //please replace the following parameter values, when you use the demo.
@@ -59,6 +59,7 @@ public class ModifyDeviceInfo {
         System.out.print(responseModifyDeviceInfo.getStatusLine());
         System.out.println(responseModifyDeviceInfo.getContent());
         System.out.println();
+        return responseModifyDeviceInfo.getContent();
     }
 
     /**

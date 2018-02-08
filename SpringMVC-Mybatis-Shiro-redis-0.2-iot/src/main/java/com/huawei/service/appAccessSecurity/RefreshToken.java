@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class RefreshToken {
 
-    public static void RefreshToken() throws Exception {
+    public static String RefreshToken() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -38,6 +38,7 @@ public class RefreshToken {
         System.out.print(bodyRefreshToken.getStatusLine());
         System.out.println(bodyRefreshToken.getContent());
         System.out.println();
+        return bodyRefreshToken.getContent();
     }
 
     /**

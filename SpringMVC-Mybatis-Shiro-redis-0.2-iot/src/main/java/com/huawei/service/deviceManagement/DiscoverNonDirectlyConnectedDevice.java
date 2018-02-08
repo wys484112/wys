@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class DiscoverNonDirectlyConnectedDevice {
 
-    public static void DiscoverNonDirectlyConnectedDevice() throws Exception {
+    public static String DiscoverNonDirectlyConnectedDevice() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -71,6 +71,8 @@ public class DiscoverNonDirectlyConnectedDevice {
         System.out.print(responseDiscoverIndirectDevice.getStatusLine());
         System.out.println(responseDiscoverIndirectDevice.getContent());
         System.out.println();
+        
+        return responseDiscoverIndirectDevice.getContent();
 
     }
 

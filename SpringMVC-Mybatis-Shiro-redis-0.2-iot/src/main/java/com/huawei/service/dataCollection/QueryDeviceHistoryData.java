@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class QueryDeviceHistoryData {
 
-    public static void QueryDeviceHistoryData() throws Exception {
+    public static String QueryDeviceHistoryData() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -28,8 +28,8 @@ public class QueryDeviceHistoryData {
         String urlQueryDeviceHistoryData = Constant.QUERY_DEVICE_HISTORY_DATA;
 
         //please replace the deviceId and gatewayId, when you use the demo.
-        String deviceId = "9a445dda-f62e-4c78-be05-ef0f0c1b447a";
-        String gatewayId = "9a445dda-f62e-4c78-be05-ef0f0c1b447a";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
+        String gatewayId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
 
         Map<String, String> paramQueryDeviceHistoryData = new HashMap<>();
         paramQueryDeviceHistoryData.put("deviceId", deviceId);
@@ -46,6 +46,8 @@ public class QueryDeviceHistoryData {
         System.out.print(bodyQueryDeviceHistoryData.getStatusLine());
         System.out.println(bodyQueryDeviceHistoryData.getContent());
         System.out.println();
+        return bodyQueryDeviceHistoryData.getContent();
+
     }
 
     /**

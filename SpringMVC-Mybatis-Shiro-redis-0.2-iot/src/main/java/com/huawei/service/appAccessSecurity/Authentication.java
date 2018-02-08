@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class Authentication {
     @SuppressWarnings("unchecked")
-	public static void Authentication() throws Exception {
+	public static String Authentication() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -43,7 +43,9 @@ public class Authentication {
         Map<String, String> data = new HashMap<>();
         data = JsonUtil.jsonString2SimpleObj(responseLogin.getContent(), data.getClass());
         String accessToken = data.get("accessToken");
-        System.out.println("accessToken:" + accessToken);
+        System.out.println("accessToken:" + responseLogin.getContent());
+        
+        return responseLogin.getContent();
 
     }
 }
