@@ -279,10 +279,12 @@ public class httptest {
         
         
         Request request = new Request.Builder()
-        		  .url("http://localhost:8080/role/getRoleListWithPager")
+        		  .url("http://localhost:8080/role/list")
         		  .get()
         		  .addHeader("Cache-Control", "no-cache")
-                  .addHeader("Cookie", cookieStr.toString())  
+                  .addHeader("Cookie", cookieStr.toString())
+                .addHeader("User-Agent", "Android")
+                  
         		  .build();
         Call nCall = client.newCall(request);  
 

@@ -13,6 +13,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
+	<welcome-file>/user/index.shtml</welcome-file>    
   </welcome-file-list>
   
   
@@ -91,9 +92,7 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>/user/index.shtml</welcome-file>
-	</welcome-file-list>
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/open/404.shtml</location>

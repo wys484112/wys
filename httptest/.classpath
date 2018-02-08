@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="E:/mvn/repository/org/json/json/20171018/json-20171018.jar"/>
+	<classpathentry kind="lib" path="E:/mvn/repository/com/squareup/okhttp3/okhttp/3.9.1/okhttp-3.9.1.jar"/>
+	<classpathentry kind="lib" path="E:/mvn/repository/com/squareup/okio/okio/1.13.0/okio-1.13.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

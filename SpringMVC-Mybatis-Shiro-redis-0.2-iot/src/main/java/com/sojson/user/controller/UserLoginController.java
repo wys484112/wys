@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.huawei.service.appAccessSecurity.Authentication;
 import com.sojson.common.controller.BaseController;
 import com.sojson.common.model.UUser;
 import com.sojson.common.utils.LoggerUtils;
@@ -120,7 +121,12 @@ public class UserLoginController extends BaseController {
 	@RequestMapping(value="submitLogin",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> submitLogin(UUser entity,Boolean rememberMe,HttpServletRequest request){
-		
+		try {
+			Authentication.Authentication();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			entity = TokenManager.login(entity,rememberMe);
 			resultMap.put("status", 200);

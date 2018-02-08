@@ -36,6 +36,9 @@
 					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 					<include>**/*.ini</include>
+					<include>**/*.pkcs12</include>
+					<include>**/*.jks</include>
+					
 				</includes>
 				<filtering>false</filtering>
 			</resource>
@@ -50,6 +53,24 @@
 		</resources>
 	</build>
 	<dependencies>
+	
+	
+	
+		<!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+		<dependency>
+		    <groupId>com.squareup.okhttp3</groupId>
+		    <artifactId>okhttp</artifactId>
+		    <version>3.9.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.squareup.okio/okio -->
+		<dependency>
+		    <groupId>com.squareup.okio</groupId>
+		    <artifactId>okio</artifactId>
+		    <version>1.13.0</version>
+		</dependency>
+
+
+	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -75,13 +96,22 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-cache</artifactId>
-			<version>4.2.5</version>
+			<version>4.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.2.5</version>
+			<version>4.5.2</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpcore</artifactId>
+    <version>4.4.9</version>
+</dependency>
+
+
+		
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>javaee-api</artifactId>
