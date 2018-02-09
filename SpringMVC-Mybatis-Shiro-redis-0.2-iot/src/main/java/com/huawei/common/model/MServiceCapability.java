@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
  * @version 1.0,2016年5月25日 <br/>
  * 
  */
-public class MServiceCapabilities implements Serializable {
+public class MServiceCapability implements Serializable {
     private String serviceId;
 
     private String serviceType;
@@ -35,9 +35,9 @@ public class MServiceCapabilities implements Serializable {
 
     private String description;
 
-    private List<MCommands> commands;
+    private List<MCommand> commands;
 
-    private List<MProperties> properties;
+    private List<MProperty> properties;
 
     public void setServiceId(String serviceId){
         this.serviceId = serviceId;
@@ -63,16 +63,16 @@ public class MServiceCapabilities implements Serializable {
     public String getDescription(){
         return this.description;
     }
-    public void setCommands(List<MCommands> commands){
+    public void setCommands(List<MCommand> commands){
         this.commands = commands;
     }
-    public List<MCommands> getCommands(){
+    public List<MCommand> getCommands(){
         return this.commands;
     }
-    public void setProperties(List<MProperties> properties){
+    public void setProperties(List<MProperty> properties){
         this.properties = properties;
     }
-    public List<MProperties> getProperties(){
+    public List<MProperty> getProperties(){
         return this.properties;
     }
 

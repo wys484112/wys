@@ -26,10 +26,10 @@ import net.sf.json.JSONObject;
  * @version 1.0,2016年5月25日 <br/>
  * 
  */
-public class MCommands implements Serializable {
+public class MCommand implements Serializable {
     private String commandName;
 
-    private List<MParas> paras;
+    private List<MPara> paras;
 
     private String responses;
 
@@ -39,10 +39,10 @@ public class MCommands implements Serializable {
     public String getCommandName(){
         return this.commandName;
     }
-    public void setParas(List<MParas> paras){
+    public void setParas(List<MPara> paras){
         this.paras = paras;
     }
-    public List<MParas> getParas(){
+    public List<MPara> getParas(){
         return this.paras;
     }
     public void setResponses(String responses){

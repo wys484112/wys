@@ -28,7 +28,7 @@ public class QueryDeviceActivationStatus {
 		String appId = Constant.APPID;
 
         //please replace the deviceId, when you use the demo.
-        String deviceId = "9a445dda-f62e-4c78-be05-ef0f0c1b447a";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
         String urlDeviceActivationStatus = Constant.QUERY_DEVICE_ACTIVATION_STATUS + "/" + deviceId;
 
         Map<String, String> header = new HashMap<>();

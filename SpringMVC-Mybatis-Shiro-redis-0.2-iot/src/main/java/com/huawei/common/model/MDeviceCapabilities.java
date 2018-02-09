@@ -29,7 +29,7 @@ import net.sf.json.JSONObject;
 public class MDeviceCapabilities implements Serializable {
 	  private String deviceId;
 
-	    private List<MServiceCapabilities> serviceCapabilities;
+	    private List<MServiceCapability> serviceCapabilities;
 
 	    public void setDeviceId(String deviceId){
 	        this.deviceId = deviceId;
@@ -37,10 +37,10 @@ public class MDeviceCapabilities implements Serializable {
 	    public String getDeviceId(){
 	        return this.deviceId;
 	    }
-	    public void setServiceCapabilities(List<MServiceCapabilities> serviceCapabilities){
+	    public void setServiceCapabilities(List<MServiceCapability> serviceCapabilities){
 	        this.serviceCapabilities = serviceCapabilities;
 	    }
-	    public List<MServiceCapabilities> getServiceCapabilities(){
+	    public List<MServiceCapability> getServiceCapabilities(){
 	        return this.serviceCapabilities;
 	    }
 	public String toString() {

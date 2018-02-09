@@ -58,7 +58,7 @@ public class PostAsynCommandV4 {
         String appId = Constant.APPID;
 
         //please replace the deviceId, when you use the demo.
-        String deviceId = "8c23b6b4-ea68-48fb-9c2f-90452a81ebb1";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
         String callbackUrl = Constant.REPORT_CMD_EXEC_RESULT_CALLBACK_URL;
 
         //please replace the following parameter values, when you use the demo.

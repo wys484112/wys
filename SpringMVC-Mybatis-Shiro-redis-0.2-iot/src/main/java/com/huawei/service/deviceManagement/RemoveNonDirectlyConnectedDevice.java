@@ -25,7 +25,7 @@ public class RemoveNonDirectlyConnectedDevice {
 
         //Please make sure that the following parameter values have been modified in the Constant file.
         String appId = Constant.APPID;
-        String deviceId = "0492bf00-41ca-4f6f-bdfa-409daacd0004";
+        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
 
         //please replace the following parameter values, when you use the demo.
         //And those parameter values must be consistent with the content of profile that have been preset to IoT platform.
