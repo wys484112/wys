@@ -43,6 +43,8 @@ public class PermissionFilter extends AccessControlFilter {
 		if(null != mappedValue){
 			String[] arra = (String[])mappedValue;
 			for (String permission : arra) {
+				System.out.print("vvvvvvvvvvvvvv: 444 permission=="+permission);
+
 				if(subject.isPermitted(permission)){
 					return Boolean.TRUE;
 				}
@@ -57,10 +59,16 @@ public class PermissionFilter extends AccessControlFilter {
 		 */
 		
 		String uri = httpRequest.getRequestURI();//获取URI
+		System.out.print("vvvvvvvvvvvvvv: 444 uri=="+uri);
+
 		String basePath = httpRequest.getContextPath();//获取basePath
+		System.out.print("vvvvvvvvvvvvvv: 444 basePath=="+basePath);
+
 		if(null != uri && uri.startsWith(basePath)){
 			uri = uri.replaceFirst(basePath, "");
 		}
+		System.out.print("vvvvvvvvvvvvvv: 444 uri=="+uri);
+
 		if(subject.isPermitted(uri)){
 			return Boolean.TRUE;
 		}
@@ -71,6 +79,8 @@ public class PermissionFilter extends AccessControlFilter {
 			resultMap.put("message", "\u5F53\u524D\u7528\u6237\u6CA1\u6709\u767B\u5F55\uFF01");//当前用户没有登录！
 			ShiroFilterUtils.out(response, resultMap);
 		}
+		System.out.print("vvvvvvvvvvvvvv: 444");
+
 		return Boolean.FALSE;
 	}
 

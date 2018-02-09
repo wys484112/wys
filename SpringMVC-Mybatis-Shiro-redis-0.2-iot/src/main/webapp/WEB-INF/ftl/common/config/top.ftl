@@ -77,7 +77,12 @@
 					<a class="dropdown-toggle" href="http://www.sojson.com/jc/shiro.html" target="_blank">
 						Shiro Demo 其他版本<span class="collapsing"></span>
 					</a>
-				</li>	          
+				</li>	   
+				<li>
+					<a class="dropdown-toggle" href="${basePath}/huawei/QueryDevices.shtml" target="_blank">
+						华为<span class="collapsing"></span>
+					</a>
+				</li>	         				       
 	          </ul>
 	           <ul class="nav navbar-nav  pull-right" >
 				<li class="dropdown ${(index==10)?string('active','')}" style="color:#fff;">

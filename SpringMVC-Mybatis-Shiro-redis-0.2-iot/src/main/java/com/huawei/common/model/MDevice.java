@@ -39,7 +39,7 @@ public class MDevice implements Serializable {
 
     private MDeviceInfo deviceInfo;
 
-    private String services;
+    private List<MServices> services;
 
     private MConnectionInfo connectionInfo;
 
@@ -83,10 +83,10 @@ public class MDevice implements Serializable {
     public MDeviceInfo getDeviceInfo(){
         return this.deviceInfo;
     }
-    public void setServices(String services){
+    public void setServices(List<MServices> services){
         this.services = services;
     }
-    public String getServices(){
+    public List<MServices> getServices(){
         return this.services;
     }
     public void setConnectionInfo(MConnectionInfo connectionInfo){

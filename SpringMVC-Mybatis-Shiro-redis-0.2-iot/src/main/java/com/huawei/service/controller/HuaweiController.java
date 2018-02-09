@@ -13,22 +13,27 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.huawei.common.model.MAuthentication;
+import com.huawei.common.model.MDevice;
 import com.huawei.common.model.MQueryDeviceCapabilities;
+import com.huawei.common.model.MQueryDevices;
 import com.huawei.service.appAccessSecurity.*;
 import com.huawei.service.dataCollection.*;
 import com.huawei.service.deviceManagement.*;
 import com.huawei.utils.JsonUtil;
 import com.sojson.common.controller.BaseController;
+import com.sojson.common.model.UPermission;
 import com.sojson.common.model.UUser;
 import com.sojson.common.utils.LoggerUtils;
 import com.sojson.common.utils.StringUtils;
 import com.sojson.common.utils.VerifyCodeUtils;
+import com.sojson.core.mybatis.page.Pagination;
 import com.sojson.core.shiro.token.manager.TokenManager;
 import com.sojson.user.manager.UserManager;
 import com.sojson.user.service.UUserService;
@@ -59,8 +64,7 @@ import com.alibaba.fastjson.*;//要导入的fastjson包
 @RequestMapping("huawei")
 public class HuaweiController extends BaseController {
 
-	@Resource
-	UUserService userService;
+
 	
 
 	@RequestMapping(value="Authentication",method=RequestMethod.GET)
@@ -152,19 +156,41 @@ public class HuaweiController extends BaseController {
 	
 	
 	
-	@RequestMapping(value="QueryDevices",method=RequestMethod.GET)
-	@ResponseBody
-	public String QueryDevices(){
-		try {
-			return QueryDevices.QueryDevices();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		return null;
-	}
+//	@RequestMapping(value="QueryDevicesAA",method=RequestMethod.GET)
+//	@ResponseBody
+//	public String QueryDevicesAA(){
+//		try {
+//			return QueryDevices.QueryDevices();
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		return null;
+//	}
 	
+	
+	@RequestMapping(value="QueryDevices",method=RequestMethod.GET)
+	public ModelAndView QueryDevices(String findContent, ModelMap modelMap, Integer pageNo) {
+		System.out.print("vvvvvvvvvvvvvv:");
+
+		String temp = null;
+		try {
+			temp = QueryDevices.QueryDevices();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		MQueryDevices mMQueryDevices = JSON.parseObject(temp, MQueryDevices.class);
+		System.out.print("vvvvvvvvvvvvvv: mMQueryDevices.="+mMQueryDevices.getTotalCount());
+
+		modelMap.put("findContent", findContent);
+		Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+				mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+		System.out.print("vvvvvvvvvvvvvv: 111");
+
+		return new ModelAndView("huawei/QueryDevices", "page", devices);
+	}
 	
 	@RequestMapping(value="DeleteDirectlyConnectedDevice",method=RequestMethod.GET)
 	@ResponseBody

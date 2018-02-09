@@ -3,7 +3,12 @@ package com.sojson.core.mybatis.page;
 public class SimplePage implements Paginable {
 	private static final long serialVersionUID = 1L;
 	public static final int DEF_COUNT = 20;
-
+	
+	protected int totalCount = 0;
+	protected int pageSize = 20;
+	protected int pageNo = 1;
+	protected int filterNo;
+	
 	public SimplePage() {
 	}
 
@@ -93,9 +98,7 @@ public class SimplePage implements Paginable {
 		}
 	}
 
-	protected int totalCount = 0;
-	protected int pageSize = 20;
-	protected int pageNo = 1;
+
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
@@ -110,7 +113,6 @@ public class SimplePage implements Paginable {
 	}
 	
 	
-	protected int filterNo;
 
 	public int getFilterNo() {
 		return filterNo;

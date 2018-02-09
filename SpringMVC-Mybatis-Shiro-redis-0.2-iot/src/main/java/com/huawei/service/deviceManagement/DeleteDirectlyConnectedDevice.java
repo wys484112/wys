@@ -28,7 +28,7 @@ public class DeleteDirectlyConnectedDevice {
 		String appId = Constant.APPID;
 
 		//please replace the deviceId, when you use the demo.
-        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
+        String deviceId = "d1db745c-d03e-4702-82c4-3d6577de0eeb";
         String urlDelete = Constant.DELETE_DEVICE + "/" +deviceId;
                 
         Map<String, String> header = new HashMap<>();
@@ -42,6 +42,9 @@ public class DeleteDirectlyConnectedDevice {
 		System.out.println(responseDelete.getContent());
 		System.out.println();
 		
+//		DeleteDirectlyConnectedDevice, response content:
+//			HTTP/1.1 204 No Content
+//			null
         return responseDelete.getContent();
 
     }

@@ -62,6 +62,8 @@ public class SimpleAuthFilter extends AccessControlFilter {
 				resultMap.put("message", "您已经被踢出，请重新登录！");
 				out(response, resultMap);
 			}
+			System.out.print("vvvvvvvvvvvvvv: 666");
+
 			return  Boolean.FALSE;
 		}
 		return Boolean.TRUE;

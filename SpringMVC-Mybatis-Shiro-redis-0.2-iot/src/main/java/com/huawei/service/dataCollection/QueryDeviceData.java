@@ -27,7 +27,7 @@ public class QueryDeviceData {
         String appId = Constant.APPID;
 
         //please replace the deviceId, when you use the demo.
-        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
+        String deviceId = "3d5f6956-07be-4fdd-aa71-69b0015d4c66";
         String urlQueryDeviceData = Constant.QUERY_DEVICE_DATA + "/" + deviceId;
 
         Map<String, String> paramQueryDeviceData = new HashMap<>();

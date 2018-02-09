@@ -83,6 +83,8 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				resultMap.put("message", "您已经在其他地方登录，请重新登录！");
 				out(response, resultMap);
 			}
+			System.out.print("vvvvvvvvvvvvvv: 222");
+
 			return  Boolean.FALSE;
 		}
 		
