@@ -52,7 +52,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="deviceId != null" >
-        #{deviceId,jdbcType=BIGINT},
+        #{deviceId,jdbcType=VARCHAR},
       </if>
       <if test="verifyCode != null" >
         #{verifyCode,jdbcType=VARCHAR},

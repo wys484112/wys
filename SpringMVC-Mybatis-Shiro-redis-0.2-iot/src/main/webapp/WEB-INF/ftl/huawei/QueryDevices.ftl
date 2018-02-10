@@ -51,6 +51,14 @@
 				});
 			}
 			</@shiro.hasPermission>
+			
+
+			<#--根据ID数组删除角色-->
+			function modifyDeviceInfo(ids){
+	
+			}
+			
+						
 			<@shiro.hasPermission name="/permission/addPermission.shtml">
 			<#--添加权限-->
 			function addPermission(){
@@ -116,9 +124,10 @@
 							<th>厂商名称</th>
 							<th>设备型号</th>
 							
+							<th>配置设备</th>
 							
 							
-							<th>设备id</th>
+							<th>删除</th>
 							
 						</tr>
 						<#if page?exists && page.list?size gt 0 >
@@ -133,6 +142,12 @@
 									<td>${it.deviceInfo.manufacturerName?default('-')}</td>
 									<td>${it.deviceInfo.model?default('-')}</td>
 									
+									<td>
+										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
+											<i class="glyphicon glyphicon-pencil"></i><a onclick="$('#modifyDeviceInfo').modal();">编辑</a>
+										</@shiro.hasPermission>
+									</td>
+																		
 									<td>
 										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
 											<i class="glyphicon glyphicon-remove"></i><a href="javascript:deleteById([${it.deviceId}]);">删除</a>
@@ -154,6 +169,8 @@
 					</form>
 				</div>
 			</div><#--/row-->
+			
+			
 			<@shiro.hasPermission name="/permission/addPermission.shtml">
 			<#--弹框-->
 			<div class="modal fade" id="addPermission" tabindex="-1" role="dialog" aria-labelledby="addPermissionLabel">
@@ -184,6 +201,60 @@
 			</div>
 			<#--/弹框-->
 			</@shiro.hasPermission>
+			
+			
+			
+			
+			
+			
+						
+			<#--弹框-->
+			<div class="modal fade" id="modifyDeviceInfo" tabindex="-1" role="dialog" aria-labelledby="modifyDeviceInfoLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="modifyDeviceInfoLabel">编辑设备信息</h4>
+			      </div>
+			      <div class="modal-body">
+			        <form id="boxRoleForm">
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">设备名称:</label>
+			            <input type="text" class="form-control" name="name" id="name" placeholder="请输入设备名称"/>
+			          </div>
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">设备类型:</label>
+			            <input type="text" class="form-control" name="deviceType" id="deviceType" placeholder="请输入设备类型"/>
+			          </div>
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">厂商ID:</label>
+			            <input type="text" class="form-control" name="manufacturerId" id="manufacturerId" placeholder="请输入厂商ID"/>
+			          </div>
+			          
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">厂商名称:</label>
+			            <input type="text" class="form-control" name="manufacturerName" id="manufacturerName" placeholder="请输入厂商名称"/>
+			          </div>
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">设备型号:</label>
+			            <input type="text" class="form-control" name="model" id="model" placeholder="请输入设备型号"/>
+			          </div>
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">协议类型:</label>
+			            <input type="text" class="form-control" name="protocolType" id="protocolType" placeholder="请输入协议类型"/>
+			          </div>			          
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" onclick="modifyDeviceInfo();" class="btn btn-primary">Save</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<#--/弹框-->
+			
+			
 		</div>
 			
 	</body>

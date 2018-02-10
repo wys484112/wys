@@ -18,14 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.huawei.common.model.MAuthentication;
 import com.huawei.common.model.MDevice;
+import com.huawei.common.model.MDeviceInfo;
 import com.huawei.common.model.MQueryDeviceCapabilities;
 import com.huawei.common.model.MQueryDevices;
 import com.huawei.common.model.MRegisterDirectlyConnectedDevice;
+import com.huawei.iot.service.ModifyDeviceInfoService;
 import com.huawei.iot.service.RegisterDirectlyConnectedDeviceService;
 import com.huawei.service.appAccessSecurity.*;
 import com.huawei.service.dataCollection.*;
 import com.huawei.service.deviceManagement.*;
 import com.sojson.common.controller.BaseController;
+import com.sojson.common.model.UPermission;
 import com.sojson.common.model.UUser;
 import com.sojson.common.utils.LoggerUtils;
 import com.sojson.common.utils.StringUtils;
@@ -59,6 +62,11 @@ import com.alibaba.fastjson.*;//要导入的fastjson包
 public class HuaweiController extends BaseController {
 
 
+	@Autowired
+	RegisterDirectlyConnectedDeviceService registerDirectlyConnectedDeviceService;
+	
+	@Autowired
+	ModifyDeviceInfoService modifyDeviceInfoService;
 	
 
 	@RequestMapping(value="Authentication",method=RequestMethod.GET)
@@ -148,9 +156,7 @@ public class HuaweiController extends BaseController {
 		return null;
 	}
 	
-	@Autowired
-	RegisterDirectlyConnectedDeviceService registerDirectlyConnectedDeviceService;
-	
+
 	@RequestMapping(value="RegisterDirectlyConnectedDevice",method=RequestMethod.GET)
 	@ResponseBody
 	public String RegisterDirectlyConnectedDevice(){
@@ -228,6 +234,22 @@ public class HuaweiController extends BaseController {
 	}
 	
 	
+	
+//	@RequestMapping(value="modifyDeviceInfo",method=RequestMethod.POST)
+//	@ResponseBody
+//	public Map<String,Object> modifyDeviceInfo(MDeviceInfo deviceinfo){
+//		try {
+//			MDeviceInfo entity = modifyDeviceInfoService.insertSelective(deviceinfo);
+//			resultMap.put("status", 200);
+//			resultMap.put("entity", entity);
+//		} catch (Exception e) {
+//			resultMap.put("status", 500);
+//			resultMap.put("message", "添加失败，请刷新后再试！");
+//			LoggerUtils.fmtError(getClass(), e, "添加权限报错。source[%s]", deviceinfo.toString());
+//		}
+//		return resultMap;
+//	}
+	
 	/**
 	 * 登录提交
 	 * @param entity		登录的UUser
@@ -235,70 +257,70 @@ public class HuaweiController extends BaseController {
 	 * @param request		request，用来取登录之前Url地址，用来登录后跳转到没有登录之前的页面。
 	 * @return
 	 */
-	@RequestMapping(value="submitLogin",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> submitLogin(UUser entity,Boolean rememberMe,HttpServletRequest request){
-		try {
-			Authentication.Authentication();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			entity = TokenManager.login(entity,rememberMe);
-			resultMap.put("status", 200);
-			resultMap.put("message", "登录成功");
-			
-			
-			/**
-			 * shiro 获取登录之前的地址
-			 * 之前0.1版本这个没判断空。
-			 */
-			SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-			String url = null ;
-			if(null != savedRequest){
-				url = savedRequest.getRequestUrl();
-			}
-			/**
-			 * 我们平常用的获取上一个请求的方式，在Session不一致的情况下是获取不到的
-			 * String url = (String) request.getAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE);
-			 */
-			LoggerUtils.fmtDebug(getClass(), "获取登录之前的URL:[%s]",url);
-			//如果登录之前没有地址，那么就跳转到首页。
-			if(StringUtils.isBlank(url)){
-				url = request.getContextPath() + "/user/index.shtml";
-			}
-			//跳转地址
-			resultMap.put("back_url", url);
-		/**
-		 * 这里其实可以直接catch Exception，然后抛出 message即可，但是最好还是各种明细catch 好点。。
-		 */
-		} catch (DisabledAccountException e) {
-			resultMap.put("status", 500);
-			resultMap.put("message", "帐号已经禁用。");
-		} catch (Exception e) {
-			resultMap.put("status", 500);
-			resultMap.put("message", "帐号或密码错误");
-		}
-			
-		return resultMap;
-	}
+//	@RequestMapping(value="submitLogin",method=RequestMethod.POST)
+//	@ResponseBody
+//	public Map<String,Object> submitLogin(UUser entity,Boolean rememberMe,HttpServletRequest request){
+//		try {
+//			Authentication.Authentication();
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		try {
+//			entity = TokenManager.login(entity,rememberMe);
+//			resultMap.put("status", 200);
+//			resultMap.put("message", "登录成功");
+//			
+//			
+//			/**
+//			 * shiro 获取登录之前的地址
+//			 * 之前0.1版本这个没判断空。
+//			 */
+//			SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+//			String url = null ;
+//			if(null != savedRequest){
+//				url = savedRequest.getRequestUrl();
+//			}
+//			/**
+//			 * 我们平常用的获取上一个请求的方式，在Session不一致的情况下是获取不到的
+//			 * String url = (String) request.getAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE);
+//			 */
+//			LoggerUtils.fmtDebug(getClass(), "获取登录之前的URL:[%s]",url);
+//			//如果登录之前没有地址，那么就跳转到首页。
+//			if(StringUtils.isBlank(url)){
+//				url = request.getContextPath() + "/user/index.shtml";
+//			}
+//			//跳转地址
+//			resultMap.put("back_url", url);
+//		/**
+//		 * 这里其实可以直接catch Exception，然后抛出 message即可，但是最好还是各种明细catch 好点。。
+//		 */
+//		} catch (DisabledAccountException e) {
+//			resultMap.put("status", 500);
+//			resultMap.put("message", "帐号已经禁用。");
+//		} catch (Exception e) {
+//			resultMap.put("status", 500);
+//			resultMap.put("message", "帐号或密码错误");
+//		}
+//			
+//		return resultMap;
+//	}
 	
 	/**
 	 * 退出
 	 * @return
 	 */
-	@RequestMapping(value="logout",method =RequestMethod.GET)
-	@ResponseBody
-	public Map<String,Object> logout(){
-		try {
-			TokenManager.logout();
-			resultMap.put("status", 200);
-		} catch (Exception e) {
-			resultMap.put("status", 500);
-			logger.error("errorMessage:" + e.getMessage());
-			LoggerUtils.fmtError(getClass(), e, "退出出现错误，%s。", e.getMessage());
-		}
-		return resultMap;
-	}
+//	@RequestMapping(value="logout",method =RequestMethod.GET)
+//	@ResponseBody
+//	public Map<String,Object> logout(){
+//		try {
+//			TokenManager.logout();
+//			resultMap.put("status", 200);
+//		} catch (Exception e) {
+//			resultMap.put("status", 500);
+//			logger.error("errorMessage:" + e.getMessage());
+//			LoggerUtils.fmtError(getClass(), e, "退出出现错误，%s。", e.getMessage());
+//		}
+//		return resultMap;
+//	}
 }
