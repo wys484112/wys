@@ -1,16 +1,13 @@
 package com.huawei.service.controller;
 
-import java.util.Date;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONObject;
 
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,20 +20,17 @@ import com.huawei.common.model.MAuthentication;
 import com.huawei.common.model.MDevice;
 import com.huawei.common.model.MQueryDeviceCapabilities;
 import com.huawei.common.model.MQueryDevices;
+import com.huawei.common.model.MRegisterDirectlyConnectedDevice;
+import com.huawei.iot.service.RegisterDirectlyConnectedDeviceService;
 import com.huawei.service.appAccessSecurity.*;
 import com.huawei.service.dataCollection.*;
 import com.huawei.service.deviceManagement.*;
-import com.huawei.utils.JsonUtil;
 import com.sojson.common.controller.BaseController;
-import com.sojson.common.model.UPermission;
 import com.sojson.common.model.UUser;
 import com.sojson.common.utils.LoggerUtils;
 import com.sojson.common.utils.StringUtils;
-import com.sojson.common.utils.VerifyCodeUtils;
 import com.sojson.core.mybatis.page.Pagination;
 import com.sojson.core.shiro.token.manager.TokenManager;
-import com.sojson.user.manager.UserManager;
-import com.sojson.user.service.UUserService;
 import com.alibaba.fastjson.*;//要导入的fastjson包
 
 /**
@@ -154,6 +148,34 @@ public class HuaweiController extends BaseController {
 		return null;
 	}
 	
+	@Autowired
+	RegisterDirectlyConnectedDeviceService registerDirectlyConnectedDeviceService;
+	
+	@RequestMapping(value="RegisterDirectlyConnectedDevice",method=RequestMethod.GET)
+	@ResponseBody
+	public String RegisterDirectlyConnectedDevice(){
+		
+		String temp = null;
+		try {
+			temp = RegisterDirectlyConnectedDevice.RegisterDirectlyConnectedDevice();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		MRegisterDirectlyConnectedDevice mMRegisterDirectlyConnectedDevice = JSON.parseObject(temp, MRegisterDirectlyConnectedDevice.class);
+		System.out.print("vvvvvvvvvvvvvv: mMRegisterDirectlyConnectedDevice.="+mMRegisterDirectlyConnectedDevice.toString());
+		registerDirectlyConnectedDeviceService.insertSelective(mMRegisterDirectlyConnectedDevice);
+		
+		try {
+			return RegisterDirectlyConnectedDevice.RegisterDirectlyConnectedDevice();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	
 	
 //	@RequestMapping(value="QueryDevicesAA",method=RequestMethod.GET)
@@ -182,7 +204,7 @@ public class HuaweiController extends BaseController {
 			e.printStackTrace();
 		}
 		MQueryDevices mMQueryDevices = JSON.parseObject(temp, MQueryDevices.class);
-		System.out.print("vvvvvvvvvvvvvv: mMQueryDevices.="+mMQueryDevices.getTotalCount());
+		System.out.print("vvvvvvvvvvvvvv: mMQueryDevices.="+mMQueryDevices);
 
 		modelMap.put("findContent", findContent);
 		Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),

@@ -18,7 +18,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class RegisterDirectlyConnectedDevice {
 
-	public static void RegisterDirectlyConnectedDevice() throws Exception {
+	public static String RegisterDirectlyConnectedDevice() throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -32,7 +32,7 @@ public class RegisterDirectlyConnectedDevice {
 		String urlReg = Constant.REGISTER_DEVICE;
 
         //please replace the verifyCode and nodeId and timeout, when you use the demo.
-        String verifyCode = "999";
+        String verifyCode = "TEST$_vvvv";
 		String nodeId = verifyCode;
         Integer timeout = 0;
 
@@ -53,6 +53,7 @@ public class RegisterDirectlyConnectedDevice {
         System.out.print(responseReg.getStatusLine());
         System.out.println(responseReg.getContent());
         System.out.println();
+        return responseReg.getContent();
     }
 
     /**

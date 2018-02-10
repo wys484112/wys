@@ -27,6 +27,8 @@ import net.sf.json.JSONObject;
  * 
  */
 public class MDeviceInfo implements Serializable {
+       private String deviceId;
+
 	   private String nodeId;
 
 	    private String name;
