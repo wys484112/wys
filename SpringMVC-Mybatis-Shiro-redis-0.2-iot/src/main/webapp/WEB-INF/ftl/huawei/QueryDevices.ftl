@@ -34,6 +34,8 @@
 			<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
 			<#--根据ID数组删除角色-->
 			function deleteById(ids){
+				    console.log("ccccccccc");
+			
 				var index = layer.confirm("确定这"+ ids.length +"个权限？",function(){
 					var load = layer.load();
 					$.post('${basePath}/permission/deletePermissionById.shtml',{ids:ids.join(',')},function(result){
@@ -51,11 +53,56 @@
 				});
 			}
 			</@shiro.hasPermission>
+						
+			
+			$(function() {
+$('#modifyDeviceInfo').on('show.bs.modal', function (event) {
+	    console.log("aaaaaaaaaaaaaa");
+	     var modal = $(this)	   
+        var button = $(event.relatedTarget) // 触发事件的按钮  
+        var recipient = button.data('whatever') // 解析出data-whatever内容  
+		modal.find('#deviceId').val(recipient);
+});
+});
+
+			
+			function premodifyDeviceInfo(ids){
+	    console.log("bbbbbbbbbbbbbbbb");
+			
+				$('#deviceId').val("aaaa");
+				$('#modifyDeviceInfo').modal("show");
+				
+			}
+			
 			
 
 			<#--根据ID数组删除角色-->
 			function modifyDeviceInfo(ids){
-	
+				var deviceId = $('#deviceId').val(),
+					name = $('#name').val(),	
+					deviceType = $('#deviceType').val(),				
+					manufacturerId = $('#manufacturerId').val(),	
+					manufacturerName = $('#manufacturerName').val(),	
+					model = $('#model').val(),																						
+					protocolType  = $('#protocolType').val();
+				if($.trim(name) == ''){
+					return layer.msg('权限名称不能为空。',so.default),!1;
+				}
+				if($.trim(url) == ''){
+					return layer.msg('权限Url不能为空。',so.default),!1;
+				}
+				<#--loding-->
+				var load = layer.load();
+				$.post('${basePath}/permission/addPermission.shtml',{name:name,url:url},function(result){
+					layer.close(load);
+					if(result && result.status != 200){
+						return layer.msg(result.message,so.default),!1;
+					}
+					layer.msg('添加成功。');
+					setTimeout(function(){
+						$('#formId').submit();
+					},1000);
+				},'json');	
 			}
 			
 						
@@ -87,6 +134,11 @@
 		</script>
 	</head>
 	<body data-target="#one" data-spy="scroll">
+	
+
+			
+			
+			
 		<#--引入头部-->
 		<@_top.top 3/>
 		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
@@ -144,7 +196,10 @@
 									
 									<td>
 										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
-											<i class="glyphicon glyphicon-pencil"></i><a onclick="$('#modifyDeviceInfo').modal();">编辑</a>
+			<i class="glyphicon glyphicon-pencil"></i><a data-toggle="modal" data-target="#modifyDeviceInfo" data-whatever="${it.deviceId}" >编辑</a>
+            <button type="button" class="list-group-item" data-toggle="modal" data-target="#modifyDeviceInfo"  
+                    data-whatever="${it.deviceId}" >编辑
+            </button>  
 										</@shiro.hasPermission>
 									</td>
 																		
@@ -218,6 +273,10 @@
 			      </div>
 			      <div class="modal-body">
 			        <form id="boxRoleForm">
+			          <div class="form-group">
+			            <label for="recipient-name" class="control-label">设备id:</label>
+			            <input type="text" class="form-control" name="deviceId" id="deviceId" placeholder="请输入设备id"/>
+			          </div>			        
 			          <div class="form-group">
 			            <label for="recipient-name" class="control-label">设备名称:</label>
 			            <input type="text" class="form-control" name="name" id="name" placeholder="请输入设备名称"/>
