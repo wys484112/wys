@@ -3,6 +3,7 @@ package com.huawei.service.deviceManagement;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.huawei.common.model.MDeviceInfo;
 import com.huawei.utils.Constant;
 import com.huawei.utils.HttpsUtil;
 import com.huawei.utils.JsonUtil;
@@ -14,7 +15,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class ModifyDeviceInfo {
 
-	public static String ModifyDeviceInfo() throws Exception {
+	public static String ModifyDeviceInfo(MDeviceInfo entity) throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -27,17 +28,17 @@ public class ModifyDeviceInfo {
 		String appId = Constant.APPID;
 
         //please replace the deviceId, when you use the demo.
-        String deviceId = "4c422640-2b9d-4da0-a070-763f47bbfbce";
+        String deviceId = entity.getDeviceId();
         String urlModifyDeviceInfo = Constant.MODIFY_DEVICE_INFO + "/" + deviceId;
 
         //please replace the following parameter values, when you use the demo.
         //And those parameter values must be consistent with the content of profile that have been preset to IoT platform.
         //The following parameter values of this demo are use the watermeter profile that already initialized to IoT platform.
-        String manufacturerId= "LiteNAdemo";
-        String manufacturerName = "LiteNAdemo";
-        String deviceType = "WaterMeter";
-        String model = "demo130";
-        String protocolType = "CoAP";
+        String manufacturerId= entity.getManufacturerId();
+        String manufacturerName = entity.getManufacturerName();
+        String deviceType = entity.getDeviceType();
+        String model = entity.getModel();
+        String protocolType = entity.getProtocolType();
 
         Map<String, Object> paramModifyDeviceInfo = new HashMap<>();
         paramModifyDeviceInfo.put("manufacturerId", manufacturerId);

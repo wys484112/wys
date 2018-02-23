@@ -28,8 +28,8 @@ import net.sf.json.JSONObject;
  */
 public class MDeviceInfo implements Serializable {
        private String deviceId;
-
-	   private String nodeId;
+       
+       private String nodeId;
 
 	    private String name;
 
@@ -75,6 +75,12 @@ public class MDeviceInfo implements Serializable {
 
 	    private String batteryLevel;
 
+		public String getDeviceId() {
+			return deviceId;
+		}
+		public void setDeviceId(String deviceId) {
+			this.deviceId = deviceId;
+		}
 	    public void setNodeId(String nodeId){
 	        this.nodeId = nodeId;
 	    }

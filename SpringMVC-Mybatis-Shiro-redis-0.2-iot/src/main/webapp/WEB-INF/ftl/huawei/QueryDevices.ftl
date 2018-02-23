@@ -66,13 +66,6 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 });
 
 			
-			function premodifyDeviceInfo(ids){
-	    console.log("bbbbbbbbbbbbbbbb");
-			
-				$('#deviceId').val("aaaa");
-				$('#modifyDeviceInfo').modal("show");
-				
-			}
 			
 			
 
@@ -86,14 +79,32 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 					model = $('#model').val(),																						
 					protocolType  = $('#protocolType').val();
 				if($.trim(name) == ''){
-					return layer.msg('权限名称不能为空。',so.default),!1;
+					return layer.msg('设备名称不能为空。',so.default),!1;
 				}
-				if($.trim(url) == ''){
-					return layer.msg('权限Url不能为空。',so.default),!1;
+				if($.trim(deviceType) == ''){
+					return layer.msg('设备类型不能为空。',so.default),!1;
+				}
+				if($.trim(manufacturerId) == ''){
+					return layer.msg('厂商ID不能为空。',so.default),!1;
+				}
+				if($.trim(manufacturerName) == ''){
+					return layer.msg('厂商名称不能为空。',so.default),!1;
+				}
+				if($.trim(model) == ''){
+					return layer.msg('设备型号不能为空。',so.default),!1;
+				}																
+				if($.trim(protocolType) == ''){
+					return layer.msg('协议类型不能为空。',so.default),!1;
 				}
 				<#--loding-->
 				var load = layer.load();
-				$.post('${basePath}/permission/addPermission.shtml',{name:name,url:url},function(result){
+				$.post('${basePath}/huawei/modifyDeviceInfo.shtml',{deviceId:deviceId,
+				name:name,
+				deviceType:deviceType,
+				manufacturerId:manufacturerId,
+				manufacturerName:manufacturerName,
+				model:model,
+				protocolType:protocolType},function(result){
 					layer.close(load);
 					if(result && result.status != 200){
 						return layer.msg(result.message,so.default),!1;
@@ -197,9 +208,12 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 									<td>
 										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
 			<i class="glyphicon glyphicon-pencil"></i><a data-toggle="modal" data-target="#modifyDeviceInfo" data-whatever="${it.deviceId}" >编辑</a>
+<!--            
             <button type="button" class="list-group-item" data-toggle="modal" data-target="#modifyDeviceInfo"  
                     data-whatever="${it.deviceId}" >编辑
             </button>  
+-->
+            
 										</@shiro.hasPermission>
 									</td>
 																		
@@ -225,6 +239,8 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				</div>
 			</div><#--/row-->
 			
+			
+<!--            
 			
 			<@shiro.hasPermission name="/permission/addPermission.shtml">
 			<#--弹框-->
@@ -256,6 +272,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 			</div>
 			<#--/弹框-->
 			</@shiro.hasPermission>
+-->
 			
 			
 			

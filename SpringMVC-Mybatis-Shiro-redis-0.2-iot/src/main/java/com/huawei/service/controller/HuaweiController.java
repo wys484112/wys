@@ -34,6 +34,9 @@ import com.sojson.common.utils.LoggerUtils;
 import com.sojson.common.utils.StringUtils;
 import com.sojson.core.mybatis.page.Pagination;
 import com.sojson.core.shiro.token.manager.TokenManager;
+
+import net.sf.json.JSONObject;
+
 import com.alibaba.fastjson.*;//要导入的fastjson包
 
 /**
@@ -198,7 +201,7 @@ public class HuaweiController extends BaseController {
 //	}
 	
 	
-	@RequestMapping(value="QueryDevices",method=RequestMethod.GET)
+	@RequestMapping(value="QueryDevices")
 	public ModelAndView QueryDevices(String findContent, ModelMap modelMap, Integer pageNo) {
 		System.out.print("vvvvvvvvvvvvvv:");
 
@@ -231,6 +234,26 @@ public class HuaweiController extends BaseController {
 		}
 		
 		return null;
+	}
+	
+	
+	/**
+	 * 设备信息编辑修改
+	 * @return
+	 */
+	@RequestMapping(value="modifyDeviceInfo",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyDeviceInfo(MDeviceInfo entity){
+		try {
+			ModifyDeviceInfo.ModifyDeviceInfo(entity);
+			resultMap.put("status", 200);
+			resultMap.put("message", "修改成功!");
+		} catch (Exception e) {
+			resultMap.put("status", 500);
+			resultMap.put("message", "修改失败!");
+			LoggerUtils.fmtError(getClass(), e, "修改设备信息出错。[%s]", JSONObject.fromObject(entity).toString());
+		}
+		return resultMap;
 	}
 	
 	
