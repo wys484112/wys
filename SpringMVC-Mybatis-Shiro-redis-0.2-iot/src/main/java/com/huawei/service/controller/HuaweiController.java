@@ -1,5 +1,7 @@
 package com.huawei.service.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ import com.huawei.service.dataCollection.*;
 import com.huawei.service.deviceManagement.*;
 import com.sojson.common.controller.BaseController;
 import com.sojson.common.model.UPermission;
+import com.sojson.common.model.URolePermission;
 import com.sojson.common.model.UUser;
 import com.sojson.common.utils.LoggerUtils;
 import com.sojson.common.utils.StringUtils;
@@ -221,22 +224,7 @@ public class HuaweiController extends BaseController {
 		System.out.print("vvvvvvvvvvvvvv: 111");
 
 		return new ModelAndView("huawei/QueryDevices", "page", devices);
-	}
-	
-	@RequestMapping(value="DeleteDirectlyConnectedDevice",method=RequestMethod.GET)
-	@ResponseBody
-	public String DeleteDirectlyConnectedDevice(){
-		try {
-			return DeleteDirectlyConnectedDevice.DeleteDirectlyConnectedDevice();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	
+	}			
 	/**
 	 * 设备信息编辑修改
 	 * @return
@@ -256,7 +244,41 @@ public class HuaweiController extends BaseController {
 		return resultMap;
 	}
 	
-	
+	/**
+	 * 删除设备
+	 * @return
+	 */
+	@RequestMapping(value="DeleteDirectlyConnectedDevice",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> DeleteDirectlyConnectedDevice(String deviceIds){
+
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		try {
+			int successCount=0,errorCount=0;
+			String resultMsg ="删除%s条，失败%s条";
+			String[] idArray = new String[]{};
+			if(StringUtils.contains(deviceIds, ",")){
+				idArray = deviceIds.split(",");
+			}else{
+				idArray = new String[]{deviceIds};
+			}
+			
+			for (String idx : idArray) {
+				System.out.print("vvvvvvvvvvvvvv: idx==="+idx);
+				
+				DeleteDirectlyConnectedDevice.DeleteDirectlyConnectedDevice(idx);
+			}
+			resultMap.put("status", 200);
+			resultMsg = "操作成功";
+
+			resultMap.put("resultMsg", resultMsg);
+		} catch (Exception e) {
+			LoggerUtils.fmtError(getClass(), e, "根据IDS删除用户出现错误，ids[%s]", deviceIds);
+			resultMap.put("status", 500);
+			resultMap.put("message", "删除出现错误，请刷新后再试！");
+		}
+		return resultMap;	
+	}	
 	
 //	@RequestMapping(value="modifyDeviceInfo",method=RequestMethod.POST)
 //	@ResponseBody

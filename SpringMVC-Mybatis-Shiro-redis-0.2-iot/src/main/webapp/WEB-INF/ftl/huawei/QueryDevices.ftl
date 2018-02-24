@@ -16,7 +16,7 @@
 			so.init(function(){
 				//初始化全选。
 				so.checkBoxInit('#checkAll','[check=box]');
-				<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
+				<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				//全选
 				so.id('deleteAll').on('click',function(){
 					var checkeds = $('[check=box]:checked');
@@ -27,18 +27,16 @@
 					checkeds.each(function(){
 						array.push(this.value);
 					});
-					return deleteById(array);
+					return deletedById(array);
 				});
 				</@shiro.hasPermission>
 			});
-			<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
+			<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 			<#--根据ID数组删除角色-->
-			function deleteById(ids){
-				    console.log("ccccccccc");
-			
-				var index = layer.confirm("确定这"+ ids.length +"个权限？",function(){
+			function deletedById(deviceIds){			
+				var index = layer.confirm("确定这"+ deviceIds.length +"个权限？",function(){
 					var load = layer.load();
-					$.post('${basePath}/permission/deletePermissionById.shtml',{ids:ids.join(',')},function(result){
+					$.post('${basePath}/huawei/DeleteDirectlyConnectedDevice.shtml',{deviceIds:deviceIds.join(',')},function(result){
 						layer.close(load);
 						if(result && result.status != 200){
 							return layer.msg(result.message,so.default),!0;
@@ -65,7 +63,27 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 });
 });
 
+			function aaaaaa(deviceIds){
+											return layer.msg('设备名称不能为空。',so.default),!1;
 			
+				var index = layer.confirm("确定这"+ deviceIds.length +"个权限？",function(){
+					var load = layer.load();
+					$.post('${basePath}/huawei/DeleteDirectlyConnectedDevice.shtml',{deviceIds:deviceIds.join(',')},function(result){
+						layer.close(load);
+						if(result && result.status != 200){
+							return layer.msg(result.message,so.default),!0;
+						}else{
+							layer.msg(result.resultMsg);
+							setTimeout(function(){
+								$('#formId').submit();
+							},1000);
+						}
+					},'json');
+					layer.close(index);
+				});
+							
+			
+			}
 			
 			
 
@@ -170,7 +188,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				         	<@shiro.hasPermission name="/permission/addPermission.shtml">
 				         		<a class="btn btn-success" onclick="$('#addPermission').modal();">增加权限</a>
 				         	</@shiro.hasPermission>
-				         	<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
+				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="deleteAll" class="btn  btn-danger">Delete</button>
 				         	</@shiro.hasPermission>
 				         </span>    
@@ -206,7 +224,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 									<td>${it.deviceInfo.model?default('-')}</td>
 									
 									<td>
-										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
+										<@shiro.hasPermission name="/huawei/modifyDeviceInfo.shtml">
 			<i class="glyphicon glyphicon-pencil"></i><a data-toggle="modal" data-target="#modifyDeviceInfo" data-whatever="${it.deviceId}" >编辑</a>
 <!--            
             <button type="button" class="list-group-item" data-toggle="modal" data-target="#modifyDeviceInfo"  
@@ -218,8 +236,10 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 									</td>
 																		
 									<td>
-										<@shiro.hasPermission name="/permission/deletePermissionById.shtml">
-											<i class="glyphicon glyphicon-remove"></i><a href="javascript:deleteById([${it.deviceId}]);">删除</a>
+										<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
+											<i class="glyphicon glyphicon-remove"></i><a href="javascript:aaaaaa([${it.deviceId}])">删除</a>
+															<a href="#" onclick="aaaaaa("aaa")">链接</a>
+											
 										</@shiro.hasPermission>
 									</td>
 								</tr>

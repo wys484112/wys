@@ -15,7 +15,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
 public class DeleteDirectlyConnectedDevice {
 
 
-	public static String DeleteDirectlyConnectedDevice() throws Exception {
+	public static String DeleteDirectlyConnectedDevice(String deviceId) throws Exception {
 
 		// Two-Way Authentication
 		HttpsUtil httpsUtil = new HttpsUtil();
@@ -28,7 +28,6 @@ public class DeleteDirectlyConnectedDevice {
 		String appId = Constant.APPID;
 
 		//please replace the deviceId, when you use the demo.
-        String deviceId = "d1db745c-d03e-4702-82c4-3d6577de0eeb";
         String urlDelete = Constant.DELETE_DEVICE + "/" +deviceId;
                 
         Map<String, String> header = new HashMap<>();
