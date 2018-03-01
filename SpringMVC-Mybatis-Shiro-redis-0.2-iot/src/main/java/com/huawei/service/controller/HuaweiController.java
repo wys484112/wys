@@ -1,5 +1,6 @@
 package com.huawei.service.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,29 +164,28 @@ public class HuaweiController extends BaseController {
 	}
 	
 
-	@RequestMapping(value="RegisterDirectlyConnectedDevice",method=RequestMethod.GET)
+	@RequestMapping(value="RegisterDirectlyConnectedDevice",method=RequestMethod.POST)
 	@ResponseBody
-	public String RegisterDirectlyConnectedDevice(){
+	public Map<String,Object> RegisterDirectlyConnectedDevice(MRegisterDirectlyConnectedDevice mRegisterDirectlyConnectedDevice){
 		
 		String temp = null;
 		try {
-			temp = RegisterDirectlyConnectedDevice.RegisterDirectlyConnectedDevice();
+			temp = RegisterDirectlyConnectedDevice.RegisterDirectlyConnectedDevice(mRegisterDirectlyConnectedDevice);
+			resultMap.put("status", 200);
+			resultMap.put("entity", JSON.parseObject(temp, MRegisterDirectlyConnectedDevice.class));			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		MRegisterDirectlyConnectedDevice mMRegisterDirectlyConnectedDevice = JSON.parseObject(temp, MRegisterDirectlyConnectedDevice.class);
-		System.out.print("vvvvvvvvvvvvvv: mMRegisterDirectlyConnectedDevice.="+mMRegisterDirectlyConnectedDevice.toString());
-		registerDirectlyConnectedDeviceService.insertSelective(mMRegisterDirectlyConnectedDevice);
-		
-		try {
-			return RegisterDirectlyConnectedDevice.RegisterDirectlyConnectedDevice();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			resultMap.put("status", 500);
+			resultMap.put("message", "添加失败，请刷新后再试！");
+			LoggerUtils.fmtError(getClass(), e, "添加权限报错。source[%s]", mRegisterDirectlyConnectedDevice.toString());			
 		}
 		
-		return null;
+//		写入数据库
+//		MRegisterDirectlyConnectedDevice mMRegisterDirectlyConnectedDevice = JSON.parseObject(temp, MRegisterDirectlyConnectedDevice.class);
+//		System.out.print("vvvvvvvvvvvvvv: mMRegisterDirectlyConnectedDevice.="+mMRegisterDirectlyConnectedDevice.toString());
+//		registerDirectlyConnectedDeviceService.insertSelective(mMRegisterDirectlyConnectedDevice);				
+		return resultMap;
 	}
 	
 	
@@ -217,13 +217,44 @@ public class HuaweiController extends BaseController {
 		}
 		MQueryDevices mMQueryDevices = JSON.parseObject(temp, MQueryDevices.class);
 		System.out.print("vvvvvvvvvvvvvv: mMQueryDevices.="+mMQueryDevices);
+		if(findContent!=null) {
+			List<MDevice> MDevices = new ArrayList<MDevice>();
+			int count = 0;
+			MQueryDevices mMQueryDevice = new MQueryDevices();
+			for(int i=0;i<mMQueryDevices.getTotalCount();i++) {
+				if(mMQueryDevices.getDevices().get(i).getDeviceId().equals(findContent)) {
+					count++;
+					MDevices.add(mMQueryDevices.getDevices().get(i));					
+				}
+			}
+			
+			if(count==0) {
+				modelMap.put("findContent", findContent);
+				Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+						mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: 111");
 
-		modelMap.put("findContent", findContent);
-		Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
-				mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
-		System.out.print("vvvvvvvvvvvvvv: 111");
+				return new ModelAndView("huawei/QueryDevices", "page", devices);					
+			}else {
+				mMQueryDevice.setTotalCount(count);
+				mMQueryDevice.setDevices(MDevices);
+				
+				Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevice.getTotalCount(),
+						mMQueryDevice.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: findContent");
 
-		return new ModelAndView("huawei/QueryDevices", "page", devices);
+				return new ModelAndView("huawei/QueryDevices", "page", devices);				
+			}
+
+		}else {
+			modelMap.put("findContent", findContent);
+			Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+					mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+			System.out.print("vvvvvvvvvvvvvv: 111");
+
+			return new ModelAndView("huawei/QueryDevices", "page", devices);			
+		}
+
 	}			
 	/**
 	 * 设备信息编辑修改
@@ -231,17 +262,37 @@ public class HuaweiController extends BaseController {
 	 */
 	@RequestMapping(value="modifyDeviceInfo",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> modifyDeviceInfo(MDeviceInfo entity){
+	public Map<String,Object> modifyDeviceInfo(String deviceIds,MDeviceInfo entity){
+	
 		try {
-			ModifyDeviceInfo.ModifyDeviceInfo(entity);
+			int successCount=0,errorCount=0;
+			String resultMsg ="删除%s条，失败%s条";
+			String[] idArray = new String[]{};
+			if(StringUtils.contains(deviceIds, ",")){
+				idArray = deviceIds.split(",");
+			}else{
+				idArray = new String[]{deviceIds};
+			}
+
+			System.out.print("vvvvvvvvvvvvvv: name==="+deviceIds);
+
+			
+			for (String idx : idArray) {
+				System.out.print("vvvvvvvvvvvvvv: idx==="+idx);
+				entity.setDeviceId(idx);
+				ModifyDeviceInfo.ModifyDeviceInfo(entity);				
+			}
 			resultMap.put("status", 200);
-			resultMap.put("message", "修改成功!");
+			resultMsg = "操作成功";
+
+			resultMap.put("resultMsg", resultMsg);
 		} catch (Exception e) {
+			LoggerUtils.fmtError(getClass(), e, "根据IDS删除用户出现错误，ids[%s]", deviceIds);
 			resultMap.put("status", 500);
-			resultMap.put("message", "修改失败!");
-			LoggerUtils.fmtError(getClass(), e, "修改设备信息出错。[%s]", JSONObject.fromObject(entity).toString());
+			resultMap.put("message", "删除出现错误，请刷新后再试！");
 		}
-		return resultMap;
+		return resultMap;	
+		
 	}
 	
 	/**

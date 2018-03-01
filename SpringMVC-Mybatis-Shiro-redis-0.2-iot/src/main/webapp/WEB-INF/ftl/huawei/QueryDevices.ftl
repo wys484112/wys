@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 	<head>
 		<meta charset="utf-8" />
-		<title>权限列表 - 权限管理</title>
+		<title>设备列表 - 设备管理</title>
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
 		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
@@ -29,6 +29,19 @@
 					});
 					return deletedById(array);
 				});
+				</@shiro.hasPermission>
+				<@shiro.hasPermission name="/huawei/modifyDeviceInfo.shtml">				
+				so.id('editAll').on('click',function(){
+					var checkeds = $('[check=box]:checked');
+					if(!checkeds.length){
+						return layer.msg('请选择要删除的选项。',so.default),!0;
+					}
+					var array = [];
+					checkeds.each(function(){
+						array.push(this.value);
+					});
+					return modifyDeviceInfo(array);
+				});				
 				</@shiro.hasPermission>
 			});
 			<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
@@ -62,35 +75,9 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 		modal.find('#deviceId').val(recipient);
 });
 });
-
-			function aaaaaa(deviceIds){
-											return layer.msg('设备名称不能为空。',so.default),!1;
-			
-				var index = layer.confirm("确定这"+ deviceIds.length +"个权限？",function(){
-					var load = layer.load();
-					$.post('${basePath}/huawei/DeleteDirectlyConnectedDevice.shtml',{deviceIds:deviceIds.join(',')},function(result){
-						layer.close(load);
-						if(result && result.status != 200){
-							return layer.msg(result.message,so.default),!0;
-						}else{
-							layer.msg(result.resultMsg);
-							setTimeout(function(){
-								$('#formId').submit();
-							},1000);
-						}
-					},'json');
-					layer.close(index);
-				});
-							
-			
-			}
-			
-			
-
 			<#--根据ID数组删除角色-->
 			function modifyDeviceInfo(ids){
-				var deviceId = $('#deviceId').val(),
-					name = $('#name').val(),	
+				var name = $('#name').val(),	
 					deviceType = $('#deviceType').val(),				
 					manufacturerId = $('#manufacturerId').val(),	
 					manufacturerName = $('#manufacturerName').val(),	
@@ -116,7 +103,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				}
 				<#--loding-->
 				var load = layer.load();
-				$.post('${basePath}/huawei/modifyDeviceInfo.shtml',{deviceId:deviceId,
+				$.post('${basePath}/huawei/modifyDeviceInfo.shtml',{deviceIds:ids.join(','),
 				name:name,
 				deviceType:deviceType,
 				manufacturerId:manufacturerId,
@@ -135,20 +122,20 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 			}
 			
 						
-			<@shiro.hasPermission name="/permission/addPermission.shtml">
+			<@shiro.hasPermission name="/huawei/RegisterDirectlyConnectedDevice.shtml">
 			<#--添加权限-->
 			function addPermission(){
-				var name = $('#name').val(),
-					url  = $('#url').val();
-				if($.trim(name) == ''){
-					return layer.msg('权限名称不能为空。',so.default),!1;
+				var verifyCode = $('#verifyCode').val(),
+					timeout  = $('#timeout').val();
+				if($.trim(verifyCode) == ''){
+					return layer.msg('设备verifyCode不能为空。',so.default),!1;
 				}
-				if($.trim(url) == ''){
-					return layer.msg('权限Url不能为空。',so.default),!1;
+				if($.trim(timeout) == ''){
+					return layer.msg('设备timeout不能为空。',so.default),!1;
 				}
 				<#--loding-->
 				var load = layer.load();
-				$.post('${basePath}/permission/addPermission.shtml',{name:name,url:url},function(result){
+				$.post('${basePath}/huawei/RegisterDirectlyConnectedDevice.shtml',{verifyCode:verifyCode,timeout:timeout},function(result){
 					layer.close(load);
 					if(result && result.status != 200){
 						return layer.msg(result.message,so.default),!1;
@@ -175,22 +162,29 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				<#--引入左侧菜单-->
 				<@_left.role 3/>
 				<div class="col-md-10">
-					<h2>权限列表</h2>
+					<h2>设备列表</h2>
 					<hr>
 					<form method="post" action="" id="formId" class="form-inline">
 						<div clss="well">
 					      <div class="form-group">
 					        <input type="text" class="form-control" style="width: 300px;" value="${findContent?default('')}" 
-					        			name="findContent" id="findContent" placeholder="输入权限名称">
+					        			name="findContent" id="findContent" placeholder="输入设备id">
 					      </div>
 					     <span class=""> <#--pull-right -->
 				         	<button type="submit" class="btn btn-primary">查询</button>
-				         	<@shiro.hasPermission name="/permission/addPermission.shtml">
-				         		<a class="btn btn-success" onclick="$('#addPermission').modal();">增加权限</a>
+				         	<@shiro.hasPermission name="/huawei/RegisterDirectlyConnectedDevice.shtml">
+				         		<a class="btn btn-success" onclick="$('#addPermission').modal();">增加设备</a>
 				         	</@shiro.hasPermission>
+
+			         		<@shiro.hasPermission name="/permission/addPermission.shtml">
+				         		<a class="btn btn-success" onclick="$('#modifyDeviceInfo').modal();">编辑设备信息</a>
+				         	</@shiro.hasPermission>
+				         					         	
 				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="deleteAll" class="btn  btn-danger">Delete</button>
 				         	</@shiro.hasPermission>
+
+				         					         				         	
 				         </span>    
 				        </div>
 					<hr>
@@ -199,17 +193,10 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 							<th><input type="checkbox" id="checkAll"/></th>
 							<th>状态</th>
 							<th>设备名称</th>
-							<th>设备id</th>
-							
+							<th>设备id</th>							
 							<th>设备类型</th>
 							<th>厂商名称</th>
-							<th>设备型号</th>
-							
-							<th>配置设备</th>
-							
-							
-							<th>删除</th>
-							
+							<th>设备型号</th>																												
 						</tr>
 						<#if page?exists && page.list?size gt 0 >
 							<#list page.list as it>
@@ -217,31 +204,10 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 									<td><input value="${it.deviceId}" check='box' type="checkbox" /></td>
 									<td>${it.deviceInfo.status?default('-')}</td>
 									<td>${it.deviceInfo.name?default('-')}</td>
-									<td>${it.deviceId?default('-')}</td>
-									
+									<td>${it.deviceId?default('-')}</td>									
 									<td>${it.deviceInfo.deviceType?default('-')}</td>
 									<td>${it.deviceInfo.manufacturerName?default('-')}</td>
-									<td>${it.deviceInfo.model?default('-')}</td>
-									
-									<td>
-										<@shiro.hasPermission name="/huawei/modifyDeviceInfo.shtml">
-			<i class="glyphicon glyphicon-pencil"></i><a data-toggle="modal" data-target="#modifyDeviceInfo" data-whatever="${it.deviceId}" >编辑</a>
-<!--            
-            <button type="button" class="list-group-item" data-toggle="modal" data-target="#modifyDeviceInfo"  
-                    data-whatever="${it.deviceId}" >编辑
-            </button>  
--->
-            
-										</@shiro.hasPermission>
-									</td>
-																		
-									<td>
-										<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
-											<i class="glyphicon glyphicon-remove"></i><a href="javascript:aaaaaa([${it.deviceId}])">删除</a>
-															<a href="#" onclick="aaaaaa("aaa")">链接</a>
-											
-										</@shiro.hasPermission>
-									</td>
+									<td>${it.deviceInfo.model?default('-')}</td>																
 								</tr>
 							</#list>
 						<#else>
@@ -259,27 +225,26 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				</div>
 			</div><#--/row-->
 			
+			       
 			
-<!--            
-			
-			<@shiro.hasPermission name="/permission/addPermission.shtml">
+			<@shiro.hasPermission name="/huawei/RegisterDirectlyConnectedDevice.shtml">
 			<#--弹框-->
 			<div class="modal fade" id="addPermission" tabindex="-1" role="dialog" aria-labelledby="addPermissionLabel">
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="addPermissionLabel">添加权限</h4>
+			        <h4 class="modal-title" id="addPermissionLabel">添加设备</h4>
 			      </div>
 			      <div class="modal-body">
 			        <form id="boxRoleForm">
 			          <div class="form-group">
-			            <label for="recipient-name" class="control-label">权限名称:</label>
-			            <input type="text" class="form-control" name="name" id="name" placeholder="请输入权限名称"/>
+			            <label for="recipient-name" class="control-label">verifyCode:</label>
+			            <input type="text" class="form-control" name="verifyCode" id="verifyCode" placeholder="请输入设备verifyCode"/>
 			          </div>
 			          <div class="form-group">
-			            <label for="recipient-name" class="control-label">权限URL地址:</label>
-			            <input type="text" class="form-control" id="url" name="url"  placeholder="请输入权限URL地址">
+			            <label for="recipient-name" class="control-label">设备timeout:</label>
+			            <input type="text" class="form-control" id="timeout" name="timeout"  placeholder="请输入设备timeout">
 			          </div>
 			        </form>
 			      </div>
@@ -292,14 +257,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 			</div>
 			<#--/弹框-->
 			</@shiro.hasPermission>
--->
-			
-			
-			
-			
-			
-			
-						
+																								
 			<#--弹框-->
 			<div class="modal fade" id="modifyDeviceInfo" tabindex="-1" role="dialog" aria-labelledby="modifyDeviceInfoLabel">
 			  <div class="modal-dialog" role="document">
@@ -309,11 +267,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 			        <h4 class="modal-title" id="modifyDeviceInfoLabel">编辑设备信息</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form id="boxRoleForm">
-			          <div class="form-group">
-			            <label for="recipient-name" class="control-label">设备id:</label>
-			            <input type="text" class="form-control" name="deviceId" id="deviceId" placeholder="请输入设备id"/>
-			          </div>			        
+			        <form id="boxRoleForm">		        
 			          <div class="form-group">
 			            <label for="recipient-name" class="control-label">设备名称:</label>
 			            <input type="text" class="form-control" name="name" id="name" placeholder="请输入设备名称"/>
@@ -343,7 +297,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" onclick="modifyDeviceInfo();" class="btn btn-primary">Save</button>
+			        <button type="button" id="editAll" class="btn btn-primary">Save</button>
 			      </div>
 			    </div>
 			  </div>

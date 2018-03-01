@@ -3,6 +3,7 @@ package com.huawei.service.deviceManagement;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.huawei.common.model.MRegisterDirectlyConnectedDevice;
 import com.huawei.utils.Constant;
 import com.huawei.utils.HttpsUtil;
 import com.huawei.utils.JsonUtil;
@@ -18,7 +19,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class RegisterDirectlyConnectedDevice {
 
-	public static String RegisterDirectlyConnectedDevice() throws Exception {
+	public static String RegisterDirectlyConnectedDevice(MRegisterDirectlyConnectedDevice mRegisterDirectlyConnectedDevice) throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -32,9 +33,9 @@ public class RegisterDirectlyConnectedDevice {
 		String urlReg = Constant.REGISTER_DEVICE;
 
         //please replace the verifyCode and nodeId and timeout, when you use the demo.
-        String verifyCode = "TEST$_vvvv";
+        String verifyCode = mRegisterDirectlyConnectedDevice.getVerifyCode();
 		String nodeId = verifyCode;
-        Integer timeout = 0;
+        Long timeout = mRegisterDirectlyConnectedDevice.getTimeout();
 
         Map<String, Object> paramReg = new HashMap<>();
         paramReg.put("verifyCode", verifyCode.toUpperCase());
