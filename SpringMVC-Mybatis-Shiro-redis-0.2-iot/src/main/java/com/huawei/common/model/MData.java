@@ -27,48 +27,52 @@ import net.sf.json.JSONObject;
  * 
  */
 public class MData implements Serializable {
-    private int VoltgeValue;
+    private int voltgeValue;
 
-    private int ElectricityValue;
+    private int powerValue;
 
-    private int TemperatureValue;
+    private int temperatureValue;
 
-    private int BrightnessValue;
+    private int brightnessValue;
 
-    private int LightStatus;
+    private int lightStatus;
 
-    public void setVoltgeValue(int VoltgeValue){
-        this.VoltgeValue = VoltgeValue;
+    public void setVoltgeValue(int voltgeValue){
+        this.voltgeValue = voltgeValue;
     }
     public int getVoltgeValue(){
-        return this.VoltgeValue;
+        return this.voltgeValue;
     }
-    public void setElectricityValue(int ElectricityValue){
-        this.ElectricityValue = ElectricityValue;
+    public void setPowerValue(int powerValue){
+        this.powerValue = powerValue;
     }
-    public int getElectricityValue(){
-        return this.ElectricityValue;
+    public int getPowerValue(){
+        return this.powerValue;
     }
-    public void setTemperatureValue(int TemperatureValue){
-        this.TemperatureValue = TemperatureValue;
+    public void setTemperatureValue(int temperatureValue){
+        this.temperatureValue = temperatureValue;
     }
     public int getTemperatureValue(){
-        return this.TemperatureValue;
+        return this.temperatureValue;
     }
-    public void setBrightnessValue(int BrightnessValue){
-        this.BrightnessValue = BrightnessValue;
+    public void setBrightnessValue(int brightnessValue){
+        this.brightnessValue = brightnessValue;
     }
     public int getBrightnessValue(){
-        return this.BrightnessValue;
+        return this.brightnessValue;
     }
-    public void setLightStatus(int LightStatus){
-        this.LightStatus = LightStatus;
+    public void setLightStatus(int lightStatus){
+        this.lightStatus = lightStatus;
     }
     public int getLightStatus(){
-        return this.LightStatus;
+        return this.lightStatus;
     }
 
 	public String toString() {
 		return JSONObject.fromObject(this).toString();
 	}
 }
+
+
+
+

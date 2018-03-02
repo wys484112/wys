@@ -86,10 +86,14 @@
 						
 						
 			function queryDeviceHistoryData(deviceIds){															
-					
-					window.location.href='${basePath}/huawei/QueryDeviceHistoryData.shtml?deviceIds='+deviceIds+',';					
-					
-											
+				var index = layer.confirm("确定这"+ deviceIds.length +"个权限？",function(){
+					var load = layer.load();
+					$.post('${basePath}/huawei/QueryDeviceHistoryData.shtml',{deviceIds:deviceIds.join(',')},function(result){
+					},'json');
+					layer.close(index);
+				});
+				
+				
 			}
 									
 			
@@ -221,24 +225,16 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 					<hr>
 					<table class="table table-bordered">
 						<tr>
-							<th><input type="checkbox" id="checkAll"/></th>
-							<th>状态</th>
-							<th>设备名称</th>
-							<th>设备id</th>							
-							<th>设备类型</th>
-							<th>厂商名称</th>
-							<th>设备型号</th>																												
+							<th>设备ID</th>
+							<th>设备数据</th>
+							<th>时间</th>																				
 						</tr>
 						<#if page?exists && page.list?size gt 0 >
 							<#list page.list as it>
 								<tr>
-									<td><input value="${it.deviceId}" check='box' type="checkbox" /></td>
-									<td>${it.deviceInfo.status?default('-')}</td>
-									<td>${it.deviceInfo.name?default('-')}</td>
-									<td>${it.deviceId?default('-')}</td>									
-									<td>${it.deviceInfo.deviceType?default('-')}</td>
-									<td>${it.deviceInfo.manufacturerName?default('-')}</td>
-									<td>${it.deviceInfo.model?default('-')}</td>																
+									<td>${it.deviceId?default('-')}</td>
+									<td>${it.data?default('-')}</td>	
+									<td>${it.timestamp?default('-')}</td>																								
 								</tr>
 							</#list>
 						<#else>

@@ -21,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.huawei.common.model.MAuthentication;
 import com.huawei.common.model.MDevice;
+import com.huawei.common.model.MDeviceDataHistoryDTOs;
 import com.huawei.common.model.MDeviceInfo;
 import com.huawei.common.model.MQueryDeviceCapabilities;
+import com.huawei.common.model.MQueryDeviceHistoryData;
 import com.huawei.common.model.MQueryDevices;
 import com.huawei.common.model.MRegisterDirectlyConnectedDevice;
 import com.huawei.iot.service.ModifyDeviceInfoService;
@@ -150,17 +152,50 @@ public class HuaweiController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value="QueryDeviceHistoryData",method=RequestMethod.GET)
-	@ResponseBody
-	public String QueryDeviceHistoryData(){
+	@RequestMapping(value="QueryDeviceHistoryData")
+	public ModelAndView QueryDeviceHistoryData(String deviceIds){
+		
+		String temp = null;
 		try {
-			return QueryDeviceHistoryData.QueryDeviceHistoryData();
-		} catch (Exception e1) {
+			
+			int successCount=0,errorCount=0;
+			String resultMsg ="删除%s条，失败%s条";
+			String[] idArray = new String[]{};
+			if(StringUtils.contains(deviceIds, ",")){
+				idArray = deviceIds.split(",");
+			}else{
+				idArray = new String[]{deviceIds};
+			}
+			for (String idx : idArray) {
+				System.out.print("vvvvvvvvvvvvvv: idx==="+idx);
+				temp = QueryDeviceHistoryData.QueryDeviceHistoryData(idx);
+			}
+			
+			System.out.print("vvvvvvvvvvvvvv: name==="+deviceIds);
+			
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
-		return null;
+		if(temp!=null) {
+			System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData temp="+temp);
+
+			MQueryDeviceHistoryData mMQueryDeviceHistoryData = JSON.parseObject(temp, MQueryDeviceHistoryData.class);
+
+			Pagination<MDeviceDataHistoryDTOs> devices = new Pagination<MDeviceDataHistoryDTOs>(0, 10, mMQueryDeviceHistoryData.getTotalCount(),
+					mMQueryDeviceHistoryData.getDeviceDataHistoryDTOs());// permissionService.findPage(modelMap,pageNo,pageSize);
+			System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData");
+
+			return new ModelAndView("huawei/QueryDeviceHistoryData", "page", devices);		
+		}else {
+			return new ModelAndView("huawei/QueryDeviceHistoryData", "page", null);		
+
+		}
+
+//		return new ModelAndView("huawei/QueryDevices");				
+
 	}
 	
 
