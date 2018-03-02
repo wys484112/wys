@@ -1,4 +1,4 @@
-package com.huawei.common.model;
+package com.huawei.common.model.querydevicecapabilities;
 
 import java.io.Serializable;
 import java.util.List;

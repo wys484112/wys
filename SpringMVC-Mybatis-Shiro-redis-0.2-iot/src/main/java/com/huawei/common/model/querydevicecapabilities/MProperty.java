@@ -1,4 +1,4 @@
-package com.huawei.common.model;
+package com.huawei.common.model.querydevicecapabilities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,8 +26,8 @@ import net.sf.json.JSONObject;
  * @version 1.0,2016年5月25日 <br/>
  * 
  */
-public class MPara implements Serializable {
-    private String paraName;
+public class MProperty implements Serializable {
+    private String propertyName;
 
     private String dataType;
 
@@ -41,15 +41,17 @@ public class MPara implements Serializable {
 
     private int maxLength;
 
+    private String method;
+
     private String unit;
 
     private String enumList;
 
-    public void setParaName(String paraName){
-        this.paraName = paraName;
+    public void setPropertyName(String propertyName){
+        this.propertyName = propertyName;
     }
-    public String getParaName(){
-        return this.paraName;
+    public String getPropertyName(){
+        return this.propertyName;
     }
     public void setDataType(String dataType){
         this.dataType = dataType;
@@ -86,6 +88,12 @@ public class MPara implements Serializable {
     }
     public int getMaxLength(){
         return this.maxLength;
+    }
+    public void setMethod(String method){
+        this.method = method;
+    }
+    public String getMethod(){
+        return this.method;
     }
     public void setUnit(String unit){
         this.unit = unit;
