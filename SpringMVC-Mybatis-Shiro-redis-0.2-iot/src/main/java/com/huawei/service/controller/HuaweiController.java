@@ -27,11 +27,15 @@ import com.huawei.common.model.MQueryDeviceCapabilities;
 import com.huawei.common.model.MQueryDeviceHistoryData;
 import com.huawei.common.model.MQueryDevices;
 import com.huawei.common.model.MRegisterDirectlyConnectedDevice;
+import com.huawei.common.model.queryasyncommandsV4.MData;
+import com.huawei.common.model.queryasyncommandsV4.MQueryAsynCommandsV4;
 import com.huawei.iot.service.ModifyDeviceInfoService;
 import com.huawei.iot.service.RegisterDirectlyConnectedDeviceService;
 import com.huawei.service.appAccessSecurity.*;
 import com.huawei.service.dataCollection.*;
 import com.huawei.service.deviceManagement.*;
+import com.huawei.service.signalingDelivery.*;
+
 import com.sojson.common.controller.BaseController;
 import com.sojson.common.model.UPermission;
 import com.sojson.common.model.URolePermission;
@@ -153,7 +157,7 @@ public class HuaweiController extends BaseController {
 	
 	
 	@RequestMapping(value="QueryDeviceHistoryData")
-	public ModelAndView QueryDeviceHistoryData(String deviceIds){
+	public ModelAndView QueryDeviceHistoryData(String deviceIds,Integer pageNo){
 		
 		String temp = null;
 		try {
@@ -168,7 +172,7 @@ public class HuaweiController extends BaseController {
 			}
 			for (String idx : idArray) {
 				System.out.print("vvvvvvvvvvvvvv: idx==="+idx);
-				temp = QueryDeviceHistoryData.QueryDeviceHistoryData(idx);
+				temp = QueryDeviceHistoryData.QueryDeviceHistoryData(idx,pageNo!=null&&pageNo>=1? pageNo:0);
 			}
 			
 			System.out.print("vvvvvvvvvvvvvv: name==="+deviceIds);
@@ -183,12 +187,20 @@ public class HuaweiController extends BaseController {
 			System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData temp="+temp);
 
 			MQueryDeviceHistoryData mMQueryDeviceHistoryData = JSON.parseObject(temp, MQueryDeviceHistoryData.class);
+			if(pageNo!=null&&pageNo>=1) {
+				Pagination<MDeviceDataHistoryDTOs> devices = new Pagination<MDeviceDataHistoryDTOs>(pageNo, 10, mMQueryDeviceHistoryData.getTotalCount(),
+						mMQueryDeviceHistoryData.getDeviceDataHistoryDTOs());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData");
 
-			Pagination<MDeviceDataHistoryDTOs> devices = new Pagination<MDeviceDataHistoryDTOs>(0, 10, mMQueryDeviceHistoryData.getTotalCount(),
-					mMQueryDeviceHistoryData.getDeviceDataHistoryDTOs());// permissionService.findPage(modelMap,pageNo,pageSize);
-			System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData");
+				return new ModelAndView("huawei/QueryDeviceHistoryData", "page", devices);					
+			}else {
+				Pagination<MDeviceDataHistoryDTOs> devices = new Pagination<MDeviceDataHistoryDTOs>(0, 10, mMQueryDeviceHistoryData.getTotalCount(),
+						mMQueryDeviceHistoryData.getDeviceDataHistoryDTOs());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: QueryDeviceHistoryData");
 
-			return new ModelAndView("huawei/QueryDeviceHistoryData", "page", devices);		
+				return new ModelAndView("huawei/QueryDeviceHistoryData", "page", devices);					
+			}
+	
 		}else {
 			return new ModelAndView("huawei/QueryDeviceHistoryData", "page", null);		
 
@@ -199,6 +211,60 @@ public class HuaweiController extends BaseController {
 	}
 	
 
+	
+	@RequestMapping(value="QueryAsynCommandsV4")
+	public ModelAndView QueryAsynCommandsV4(String deviceIds,Integer pageNo){
+		System.out.print("vvvvvvvvvvvvvv: QueryAsynCommandsV4== pageNo="+pageNo);
+
+		String temp = null;
+		try {
+			
+			int successCount=0,errorCount=0;
+			String resultMsg ="删除%s条，失败%s条";
+			String[] idArray = new String[]{};
+			if(StringUtils.contains(deviceIds, ",")){
+				idArray = deviceIds.split(",");
+			}else{
+				idArray = new String[]{deviceIds};
+			}
+			for (String idx : idArray) {
+				System.out.print("vvvvvvvvvvvvvv: idx==="+idx);
+				temp = QueryAsynCommandsV4.QueryAsynCommandsV4(idx,pageNo!=null&&pageNo>=1? pageNo:0);
+			}
+			
+			System.out.print("vvvvvvvvvvvvvv: name==="+deviceIds);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(temp!=null) {
+			System.out.print("vvvvvvvvvvvvvv: QueryAsynCommandsV4 temp="+temp);
+
+			MQueryAsynCommandsV4 mMQueryAsynCommandsV4 = JSON.parseObject(temp, MQueryAsynCommandsV4.class);
+			if(pageNo!=null&&pageNo>=1) {
+				Pagination<MData> devices = new Pagination<MData>(pageNo, 10, mMQueryAsynCommandsV4.getPagination().getTotalSize(),
+						mMQueryAsynCommandsV4.getData());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: QueryAsynCommandsV4 aaaaaaa");
+
+				return new ModelAndView("huawei/QueryAsynCommandsV4", "page", devices);						
+			}else {
+				Pagination<MData> devices = new Pagination<MData>(0, 10, mMQueryAsynCommandsV4.getPagination().getTotalSize(),
+						mMQueryAsynCommandsV4.getData());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: QueryAsynCommandsV4");
+
+				return new ModelAndView("huawei/QueryAsynCommandsV4", "page", devices);						
+			}
+
+		}else {
+			return new ModelAndView("huawei/QueryAsynCommandsV4", "page", null);		
+
+		}
+	}
+	
+	
 	@RequestMapping(value="RegisterDirectlyConnectedDevice",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> RegisterDirectlyConnectedDevice(MRegisterDirectlyConnectedDevice mRegisterDirectlyConnectedDevice){
@@ -241,22 +307,28 @@ public class HuaweiController extends BaseController {
 	
 	@RequestMapping(value="QueryDevices")
 	public ModelAndView QueryDevices(String findContent, ModelMap modelMap, Integer pageNo) {
-		System.out.print("vvvvvvvvvvvvvv:");
+		System.out.print("vvvvvvvvvvvvvv:QueryDevices  pageNo="+pageNo);
 
 		String temp = null;
 		try {
-			temp = QueryDevices.QueryDevices();
+			temp = QueryDevices.QueryDevices(pageNo!=null&&pageNo>=1? pageNo-1:0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		MQueryDevices mMQueryDevices = JSON.parseObject(temp, MQueryDevices.class);
 		System.out.print("vvvvvvvvvvvvvv: mMQueryDevices.="+mMQueryDevices);
-		if(findContent!=null) {
+		if(mMQueryDevices==null) {
+			return new ModelAndView("huawei/QueryDevices", "page", null);						
+			
+		}
+		System.out.print("vvvvvvvvvvvvvv:QueryDevices  findContent="+findContent);
+		
+		if(findContent!=null && !findContent.trim().isEmpty()) {
 			List<MDevice> MDevices = new ArrayList<MDevice>();
 			int count = 0;
 			MQueryDevices mMQueryDevice = new MQueryDevices();
-			for(int i=0;i<mMQueryDevices.getTotalCount();i++) {
+			for(int i=0;i<mMQueryDevices.getDevices().size();i++) {
 				if(mMQueryDevices.getDevices().get(i).getDeviceId().equals(findContent)) {
 					count++;
 					MDevices.add(mMQueryDevices.getDevices().get(i));					
@@ -265,29 +337,55 @@ public class HuaweiController extends BaseController {
 			
 			if(count==0) {
 				modelMap.put("findContent", findContent);
-				Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+				if(pageNo!=null&&pageNo>=1) {
+					Pagination<MDevice> devices = new Pagination<MDevice>(pageNo, 10, mMQueryDevices.getTotalCount(),
+							mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+					System.out.print("vvvvvvvvvvvvvv: 111");
+
+					return new ModelAndView("huawei/QueryDevices", "page", devices);					
+				}else {
+					Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+							mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+					System.out.print("vvvvvvvvvvvvvv: 111");
+
+					return new ModelAndView("huawei/QueryDevices", "page", devices);					
+				}
+					
+			}else {
+				mMQueryDevice.setTotalCount(count);
+				mMQueryDevice.setDevices(MDevices);
+				if(pageNo!=null&&pageNo>=1) {
+					Pagination<MDevice> devices = new Pagination<MDevice>(pageNo, 10, mMQueryDevice.getTotalCount(),
+							mMQueryDevice.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+					System.out.print("vvvvvvvvvvvvvv: findContent");
+
+					return new ModelAndView("huawei/QueryDevices", "page", devices);						
+				}else {
+					Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevice.getTotalCount(),
+							mMQueryDevice.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+					System.out.print("vvvvvvvvvvvvvv: findContent");
+
+					return new ModelAndView("huawei/QueryDevices", "page", devices);						
+				}				
+			
+			}
+
+		}else {
+			modelMap.put("findContent", findContent);
+			if(pageNo!=null&&pageNo>=1) {
+				Pagination<MDevice> devices = new Pagination<MDevice>(pageNo, 10, mMQueryDevices.getTotalCount(),
 						mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
 				System.out.print("vvvvvvvvvvvvvv: 111");
 
 				return new ModelAndView("huawei/QueryDevices", "page", devices);					
 			}else {
-				mMQueryDevice.setTotalCount(count);
-				mMQueryDevice.setDevices(MDevices);
-				
-				Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevice.getTotalCount(),
-						mMQueryDevice.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
-				System.out.print("vvvvvvvvvvvvvv: findContent");
+				Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
+						mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
+				System.out.print("vvvvvvvvvvvvvv: 111");
 
-				return new ModelAndView("huawei/QueryDevices", "page", devices);				
-			}
-
-		}else {
-			modelMap.put("findContent", findContent);
-			Pagination<MDevice> devices = new Pagination<MDevice>(0, 10, mMQueryDevices.getTotalCount(),
-					mMQueryDevices.getDevices());// permissionService.findPage(modelMap,pageNo,pageSize);
-			System.out.print("vvvvvvvvvvvvvv: 111");
-
-			return new ModelAndView("huawei/QueryDevices", "page", devices);			
+				return new ModelAndView("huawei/QueryDevices", "page", devices);	
+			}			
+		
 		}
 
 	}			

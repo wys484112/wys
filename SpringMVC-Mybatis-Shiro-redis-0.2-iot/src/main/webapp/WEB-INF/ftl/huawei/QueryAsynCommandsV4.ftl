@@ -32,7 +32,24 @@
 				});
 				</@shiro.hasPermission>
 				
-								
+						
+						
+				<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
+				//全选
+				so.id('queryAsynCommandsV4').on('click',function(){
+					var checkeds = $('[check=box]:checked');
+					if(!checkeds.length){
+						return layer.msg('请选择要删除的选项。',so.default),!0;
+					}
+					var array = [];
+					checkeds.each(function(){
+						array.push(this.value);
+					});
+					return queryAsynCommandsV4(array);
+				});
+				</@shiro.hasPermission>
+				
+												
 				<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				//全选
 				so.id('deleteAll').on('click',function(){
@@ -85,17 +102,17 @@
 			</@shiro.hasPermission>
 						
 						
-			function queryDeviceHistoryData(deviceIds){															
-				var index = layer.confirm("确定这"+ deviceIds.length +"个权限？",function(){
-					var load = layer.load();
-					$.post('${basePath}/huawei/QueryDeviceHistoryData.shtml',{deviceIds:deviceIds.join(',')},function(result){
-					},'json');
-					layer.close(index);
-				});
-				
-				
+			function queryDeviceHistoryData(deviceIds){																				
+					window.location.href='${basePath}/huawei/QueryDeviceHistoryData.shtml?deviceIds='+deviceIds+',';																				
 			}
 									
+			function queryAsynCommandsV4(deviceIds){															
+					
+					window.location.href='${basePath}/huawei/QueryAsynCommandsV4.shtml?deviceIds='+deviceIds.join(',');					
+					
+											
+			}
+												
 			
 			$(function() {
 $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
@@ -193,7 +210,7 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				<#--引入左侧菜单-->
 				<@_left.role 3/>
 				<div class="col-md-10">
-					<h2>设备历史数据</h2>
+					<h2>查询历史命令</h2>
 					<hr>
 					<form method="post" action="" id="formId" class="form-inline">
 						<div clss="well">
@@ -214,7 +231,12 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="queryDeviceHistoryData" class="btn  btn-success">查询设备历史数据</button>
 				         	</@shiro.hasPermission>
-				         					         					         	
+				         					         
+				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
+				         		<button type="button" id="queryAsynCommandsV4" class="btn  btn-success">查询设备历史命令</button>
+				         	</@shiro.hasPermission>
+				         	
+				         					         					         					         	
 				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="deleteAll" class="btn  btn-danger">Delete</button>
 				         	</@shiro.hasPermission>
@@ -225,21 +247,23 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 					<hr>
 					<table class="table table-bordered">
 						<tr>
-							<th>设备ID</th>
-							<th>设备数据</th>
-							<th>时间</th>																				
+							<th>命令状态</th>
+							<th>命令id</th>	
+							<th>命令创建时间</th>						
+							<th>命令内容</th>
 						</tr>
 						<#if page?exists && page.list?size gt 0 >
 							<#list page.list as it>
 								<tr>
-									<td>${it.deviceId?default('-')}</td>
-									<td>${it.data?default('-')}</td>	
-									<td>${it.timestamp?default('-')}</td>																								
+									<td>${it.status?default('-')}</td>																	
+									<td>${it.commandId?default('-')}</td>									
+									<td>${it.creationTime?default('-')}</td>
+									<td>${it.command?default('-')}</td>																
 								</tr>
 							</#list>
 						<#else>
 							<tr>
-								<td class="text-center danger" colspan="4">没有找到历史数据</td>
+								<td class="text-center danger" colspan="4">没有找到角色</td>
 							</tr>
 						</#if>
 					</table>

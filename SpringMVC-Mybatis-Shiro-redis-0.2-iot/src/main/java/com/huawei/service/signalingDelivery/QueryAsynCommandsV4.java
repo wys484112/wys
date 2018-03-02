@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
 public class QueryAsynCommandsV4 {
 
 
-	public static void QueryAsynCommandsV4() throws Exception {
+	public static String QueryAsynCommandsV4(String idx,Integer pageNo) throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -27,16 +27,24 @@ public class QueryAsynCommandsV4 {
 		String appId = Constant.APPID;
         String urlQueryDeviceCMD = Constant.QUERY_DEVICE_CMD;
         
+        Map<String, String> paramPostAsynCmd = new HashMap<>();
+        paramPostAsynCmd.put("deviceId", idx);
+        paramPostAsynCmd.put("pageNo", Integer.toString(pageNo));
+        paramPostAsynCmd.put("pageSize", Integer.toString(10));
+        
+//        String jsonRequest = JsonUtil.jsonObj2Sting(paramPostAsynCmd);
+        
         Map<String, String> header = new HashMap<>();
         header.put(Constant.HEADER_APP_KEY, appId);
         header.put(Constant.HEADER_APP_AUTH, "Bearer" + " " + accessToken);
         
-        StreamClosedHttpResponse responseQueryDeviceCMD = httpsUtil.doGetWithParasGetStatusLine(urlQueryDeviceCMD, null, header);
+        StreamClosedHttpResponse responseQueryDeviceCMD = httpsUtil.doGetWithParasGetStatusLine(urlQueryDeviceCMD, paramPostAsynCmd, header);
         
         System.out.println("QueryAsynCommands, response content:");
 		System.out.print(responseQueryDeviceCMD.getStatusLine());
 		System.out.println(responseQueryDeviceCMD.getContent());
         System.out.println();
+        return responseQueryDeviceCMD.getContent();
     }
 
     /**

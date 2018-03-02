@@ -32,7 +32,24 @@
 				});
 				</@shiro.hasPermission>
 				
-								
+						
+						
+				<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
+				//全选
+				so.id('queryAsynCommandsV4').on('click',function(){
+					var checkeds = $('[check=box]:checked');
+					if(!checkeds.length){
+						return layer.msg('请选择要删除的选项。',so.default),!0;
+					}
+					var array = [];
+					checkeds.each(function(){
+						array.push(this.value);
+					});
+					return queryAsynCommandsV4(array);
+				});
+				</@shiro.hasPermission>
+				
+												
 				<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				//全选
 				so.id('deleteAll').on('click',function(){
@@ -85,13 +102,17 @@
 			</@shiro.hasPermission>
 						
 						
-			function queryDeviceHistoryData(deviceIds){															
+			function queryDeviceHistoryData(deviceIds){																				
+					window.location.href='${basePath}/huawei/QueryDeviceHistoryData.shtml?deviceIds='+deviceIds+',';																				
+			}
+									
+			function queryAsynCommandsV4(deviceIds){															
 					
-					window.location.href='${basePath}/huawei/QueryDeviceHistoryData.shtml?deviceIds='+deviceIds+',';					
+					window.location.href='${basePath}/huawei/QueryAsynCommandsV4.shtml?deviceIds='+deviceIds.join(',');					
 					
 											
 			}
-									
+												
 			
 			$(function() {
 $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
@@ -210,7 +231,12 @@ $('#modifyDeviceInfo').on('show.bs.modal', function (event) {
 				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="queryDeviceHistoryData" class="btn  btn-success">查询设备历史数据</button>
 				         	</@shiro.hasPermission>
-				         					         					         	
+				         					         
+				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
+				         		<button type="button" id="queryAsynCommandsV4" class="btn  btn-success">查询设备历史命令</button>
+				         	</@shiro.hasPermission>
+				         	
+				         					         					         					         	
 				         	<@shiro.hasPermission name="/huawei/DeleteDirectlyConnectedDevice.shtml">
 				         		<button type="button" id="deleteAll" class="btn  btn-danger">Delete</button>
 				         	</@shiro.hasPermission>

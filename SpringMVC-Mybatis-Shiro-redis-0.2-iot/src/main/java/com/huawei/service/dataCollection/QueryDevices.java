@@ -14,7 +14,7 @@ import com.huawei.utils.StreamClosedHttpResponse;
  */
 public class QueryDevices {
 
-    public static String QueryDevices() throws Exception {
+    public static String QueryDevices(Integer pageNo) throws Exception {
 
         // Two-Way Authentication
         HttpsUtil httpsUtil = new HttpsUtil();
@@ -28,12 +28,11 @@ public class QueryDevices {
         String urlQueryDevices = Constant.QUERY_DEVICES;
 
         //please replace the pageNo and pageSize, when you use the demo.
-        Integer pageNo = 0;
         Integer pageSize = 10;
 
         Map<String, String> paramQueryDevices = new HashMap<>();
         paramQueryDevices.put("appId", appId);
-        paramQueryDevices.put("pageNo", pageNo.toString());
+        paramQueryDevices.put("pageNo", pageNo==null? Integer.toString(0): pageNo.toString());
         paramQueryDevices.put("pageSize", pageSize.toString());
 
         Map<String, String> header = new HashMap<>();
