@@ -119,10 +119,10 @@ public class HuaweiController extends BaseController {
 	
 	@RequestMapping(value="QueryDeviceCapabilities",method=RequestMethod.GET)
 	@ResponseBody
-	public String QueryDeviceCapabilities() {
+	public String QueryDeviceCapabilities(String deviceId) {
 		try {
 
-			String temp = QueryDeviceCapabilities.QueryDeviceCapabilities();
+			String temp = QueryDeviceCapabilities.QueryDeviceCapabilities(deviceId);
 			// MQueryDeviceCapabilities mMQueryDeviceCapabilities =
 			// (MQueryDeviceCapabilities) JsonUtil.convertJsonStringToObject(temp,
 			// MQueryDeviceCapabilities.class);
@@ -407,7 +407,7 @@ public class HuaweiController extends BaseController {
 				idArray = new String[]{deviceIds};
 			}
 
-			System.out.print("vvvvvvvvvvvvvv: name==="+deviceIds);
+			System.out.print("vvvvvvvvvvvvvv: modifyDeviceInfo==="+entity.getName());
 
 			
 			for (String idx : idArray) {

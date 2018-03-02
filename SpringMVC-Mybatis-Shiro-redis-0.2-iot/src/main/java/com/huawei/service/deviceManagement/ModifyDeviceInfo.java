@@ -34,6 +34,7 @@ public class ModifyDeviceInfo {
         //please replace the following parameter values, when you use the demo.
         //And those parameter values must be consistent with the content of profile that have been preset to IoT platform.
         //The following parameter values of this demo are use the watermeter profile that already initialized to IoT platform.
+        String name= entity.getName();        
         String manufacturerId= entity.getManufacturerId();
         String manufacturerName = entity.getManufacturerName();
         String deviceType = entity.getDeviceType();
@@ -41,6 +42,7 @@ public class ModifyDeviceInfo {
         String protocolType = entity.getProtocolType();
 
         Map<String, Object> paramModifyDeviceInfo = new HashMap<>();
+        paramModifyDeviceInfo.put("name", name);
         paramModifyDeviceInfo.put("manufacturerId", manufacturerId);
         paramModifyDeviceInfo.put("manufacturerName", manufacturerName);
         paramModifyDeviceInfo.put("deviceType", deviceType);
