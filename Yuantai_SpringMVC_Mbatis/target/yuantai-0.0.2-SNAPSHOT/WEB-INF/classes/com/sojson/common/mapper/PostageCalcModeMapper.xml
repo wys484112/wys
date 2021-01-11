@@ -21,6 +21,9 @@
     -->
     id, countrycode, servicemode, Logistics, calculation
   </sql>
+  
+  
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

@@ -46,7 +46,6 @@
     from postage_value 
     <include refid="where_all"/>
     <include refid="limit_sql" />
-    order by calculation asc
   </select>
   <select id="findCount" resultMap="BaseResultMap" >
  	 select count(id) from  postage_value

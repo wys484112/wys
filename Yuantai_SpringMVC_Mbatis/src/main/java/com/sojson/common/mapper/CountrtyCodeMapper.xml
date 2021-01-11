@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sojson.common.mapper.CountrtyCodeMapper">
+<mapper namespace="com.sojson.common.dao.CountrtyCodeMapper">
   <resultMap id="BaseResultMap" type="com.sojson.common.model.CountrtyCode">
     <!--
       WARNING - @mbg.generated
@@ -19,6 +19,15 @@
     -->
     id, country, code
   </sql>
+  
+    <!-- 获取所有国家 -->  
+    <select id="selectAllCountry" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from counry_code
+  </select> 
+  
+    
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

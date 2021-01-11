@@ -11,20 +11,9 @@
 		<javaClientGenerator targetPackage="com.sojson.common.mapper"
 			targetProject="Yuantai_SpringMVC_Mbatis" type="XMLMAPPER" />
 
-		<table tableName="counry_code" domainObjectName="CountrtyCode"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table>		
-		<table tableName="logistics_mode" domainObjectName="LogisticsMode"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table>	
-		<table tableName="postage_calc_mode" domainObjectName="PostageCalcMode"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table>	
+	
 			
-		<table tableName="postage_value" domainObjectName="PostageValue"
+		<table tableName="service_mode" domainObjectName="ServiceMode"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>															

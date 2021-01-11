@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sojson.common.mapper.PostageCalcModeMapper">
+<mapper namespace="com.sojson.common.dao.PostageCalcModeMapper">
   <resultMap id="BaseResultMap" type="com.sojson.common.model.PostageCalcMode">
     <!--
       WARNING - @mbg.generated
@@ -22,7 +22,14 @@
     id, countrycode, servicemode, Logistics, calculation
   </sql>
   
-  
+    <!-- 根据国家和服務方式查找 -->
+    <select id="selectByCountryCodeAndServiceMode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from postage_calc_mode
+    where countrycode = #{countrycode,jdbcType=VARCHAR}
+      	and  servicemode =  #{servicemode,jdbcType=VARCHAR}   
+  </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--

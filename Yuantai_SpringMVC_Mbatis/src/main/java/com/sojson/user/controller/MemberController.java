@@ -95,10 +95,10 @@ public class MemberController extends BaseController {
 		return new ModelAndView("member/listpostage");
 	}
 	
-	@RequestMapping(value="refreshPostageValueTable",method=RequestMethod.POST)
+	@RequestMapping(value="insertPostageValueTable",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> refreshPostageValueTable(){
-		return postageService.refreshPostageValueTable();
+	public Map<String,Object> insertPostageValueTable(){
+		return postageService.insertPostageValueTable();
 	}
 	
 	/**

@@ -33,7 +33,7 @@
       <if test="findWeight != null">
          weight = #{findWeight,jdbcType=BIGINT}
       </if>
-      <if test="findCountryCode != null and findCountryCode !='' ">
+      <if test="findCountryCode != null">
         and             
         countrycode = #{findCountryCode,jdbcType=VARCHAR}   
       </if>

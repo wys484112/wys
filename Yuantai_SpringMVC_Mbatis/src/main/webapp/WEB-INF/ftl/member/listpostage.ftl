@@ -16,8 +16,28 @@
 			so.init(function(){
 				//初始化全选。
 				so.checkBoxInit('#checkAll','[check=box]');
+				so.id('deleteAll').on('click',function(){
+					return _delete();
+				});					
 			});
-		
+
+			function _delete(){
+					var index = layer.confirm("确定更新后台运费数据库？",function(){
+						var load = layer.load();
+						$.post('${basePath}/member/insertPostageValueTable.shtml',function(result){
+							layer.close(load);
+							if(result && result.status != 200){
+								return layer.msg(result.message,so.default),!0;
+							}else{
+								layer.msg('更新成功');
+								setTimeout(function(){
+									$('#formId').submit();
+								},1000);
+							}
+						},'json');
+						layer.close(index);
+					});
+				}					
 		</script>
 	</head>
 	<body data-target="#one" data-spy="scroll">
@@ -39,6 +59,7 @@
 					      </div>					      
 					     <span class=""> <#--pull-right -->
 				         	<button type="submit" class="btn btn-primary">查询</button>
+				         	<button type="button" id="deleteAll" class="btn  btn-danger">更新后台运费数据库</button>				         	
 				         </span>    
 				        </div>
 					<hr>

@@ -36,7 +36,7 @@ public interface PostageService {
 	Pagination<UserRoleAllocationBo> findUserAndRole(ModelMap modelMap,
 			Integer pageNo, Integer pageSize);
 
-	Map<String, Object> refreshPostageValueTable();
+	Map<String, Object> insertPostageValueTable();
 
 
 }
