@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sojson.common.controller.BaseController;
+import com.sojson.common.model.PostageValue;
 import com.sojson.common.model.UUser;
+import com.sojson.common.utils.LoggerUtils;
+import com.sojson.common.utils.StringUtils;
+import com.sojson.core.freemarker.extend.FreeMarkerViewExtend;
 import com.sojson.core.mybatis.page.Pagination;
 import com.sojson.core.shiro.session.CustomSessionManager;
 import com.sojson.user.bo.UserOnlineBo;
+import com.sojson.user.service.PostageService;
 import com.sojson.user.service.UUserService;
 /**
  * 
@@ -50,6 +55,8 @@ public class MemberController extends BaseController {
 	CustomSessionManager customSessionManager;
 	@Autowired
 	UUserService userService;
+	@Autowired
+	PostageService postageService;
 	/**
 	 * 用户列表管理
 	 * @return
@@ -62,6 +69,38 @@ public class MemberController extends BaseController {
 		map.put("page", page);
 		return new ModelAndView("member/list");
 	}
+	
+	/**
+	 * 用户列表管理
+	 * @return
+	 */
+	@RequestMapping(value="listpostage")
+	public ModelAndView listpostage(ModelMap map, Integer pageNo, String findWeight, String findCountryCode) {
+
+		if (findWeight != null && !findWeight.trim().isEmpty()) {
+			LoggerUtils.fmtDebug(MemberController.class, "aaaaaaaaaaaaa");
+
+			map.put("findWeight", StringUtils.isInteger(findWeight) ? Integer.valueOf(findWeight) : Integer.valueOf(0));
+		} else {
+			LoggerUtils.fmtDebug(MemberController.class, "bbbbb");
+
+			// map.put("findWeight", Integer.valueOf(0));
+
+		}
+
+		map.put("findCountryCode", findCountryCode);
+
+		Pagination<PostageValue> page = postageService.findByPage(map, pageNo, pageSize);
+		map.put("page", page);
+		return new ModelAndView("member/listpostage");
+	}
+	
+	@RequestMapping(value="refreshPostageValueTable",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> refreshPostageValueTable(){
+		return postageService.refreshPostageValueTable();
+	}
+	
 	/**
 	 * 在线用户管理
 	 * @return

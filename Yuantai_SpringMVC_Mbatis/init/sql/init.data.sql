@@ -8,12 +8,37 @@ MySQL - 5.6.16-log : Database - i_wenyiba_com
 
 /*Data for the table `u_permission` */
 
-insert  into `u_permission`(`id`,`url`,`name`) values (4,'/permission/index.shtml','权限列表'),(6,'/permission/addPermission.shtml','权限添加'),(7,'/permission/deletePermissionById.shtml','权限删除'),(8,'/member/list.shtml','用户列表'),(9,'/member/online.shtml','在线用户'),(10,'/member/changeSessionStatus.shtml','用户Session踢出'),(11,'/member/forbidUserById.shtml','用户激活&禁止'),(12,'/member/deleteUserById.shtml','用户删除'),(13,'/permission/addPermission2Role.shtml','权限分配'),(14,'/role/clearRoleByUserIds.shtml','用户角色分配清空'),(15,'/role/addRole2User.shtml','角色分配保存'),(16,'/role/deleteRoleById.shtml','角色列表删除'),(17,'/role/addRole.shtml','角色列表添加'),(18,'/role/index.shtml','角色列表'),(19,'/permission/allocation.shtml','权限分配'),(20,'/role/allocation.shtml','角色分配'),(21,'/huawei/QueryDevices.shtml','获取设备列表'),
-(22,'/huawei/RegisterDirectlyConnectedDevice.shtml','注册设备'),
-(23,'/huawei/modifyDeviceInfo.shtml','编辑设备信息'),
-(24,'/huawei/DeleteDirectlyConnectedDevice.shtml','删除设备'),
-(25,'/huawei/QueryDeviceHistoryData.shtml','查询历史数据'),
-(26,'/huawei/QueryAsynCommandsV4.shtml','查询历史命令');
+insert  into `counry_code`(`id`,`country`,`code`) values 
+(1,'俄罗斯','RU'),
+(2,'以色列','IL'),
+(3,'瑞典','SE'),
+(4,'西班牙','ES'),
+(5,'荷兰','NL'),
+(6,'挪威','NO');
+
+
+insert  into `service_mode`(`id`,`servicemode`) values 
+(1,'平邮'),
+(2,'挂号');
+
+insert  into `Logistics_mode`(`id`,`Logistics`,`servicemode`) values 
+(1,'燕文航空挂号小包-普货','挂号'),
+(2,'燕文航空挂号小包-特货','挂号'),
+(3,'燕文专线追踪小包-普货','挂号'),
+(4,'燕文专线追踪小包-特货','挂号'),
+(5,'递四方-华南-小包挂号','挂号'),
+(6,'递四方-S小包挂号','挂号');
+
+
+insert  into `postage_calc_mode`(`id`,`countrycode`,`servicemode`,`Logistics`,`calculation`) values 
+(1,'俄罗斯','挂号','燕文航空挂号小包-普货','x>2000:x/1000*82.528+104.192?x/1000*61.896+17.538'),
+(2,'俄罗斯','挂号','燕文航空挂号小包-特货','x/1000*94.392+25.79'),
+(3,'俄罗斯','挂号','燕文专线追踪小包-普货','x>50:x/1000*140.814+23.727?50/1000*140.814+23.727'),
+(4,'俄罗斯','挂号','燕文专线追踪小包-特货','x>50:x/1000*140.814+23.727?50/1000*140.814+23.727'),
+(5,'俄罗斯','挂号','递四方-华南-小包挂号','x>300:x/1000*72.109+20.581:(x>150:x/1000*73.739+20.044?x/1000*73.739+20.044)'),
+(6,'俄罗斯','挂号','递四方-S小包挂号','x/1000*95.63+25.584');
+
+
 
 /*Data for the table `u_role` */
 

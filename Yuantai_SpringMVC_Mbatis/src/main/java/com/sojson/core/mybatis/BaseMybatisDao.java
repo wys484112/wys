@@ -173,6 +173,7 @@ public class BaseMybatisDao<T> extends SqlSessionDaoSupport {
 		params.put("page_sql", page_sql);
 
 		sqlId =  String.format("%s.%s", NAMESPACE,sqlId) ;
+		LoggerUtils.fmtDebug(SELF, "findPage sqlId : %s",sqlId );
 
 		BoundSql boundSql = c.getMappedStatement(sqlId).getBoundSql(params);
 		String sqlcode = boundSql.getSql();

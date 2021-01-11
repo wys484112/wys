@@ -5,57 +5,59 @@ MySQL - 5.6.16-log : Database -
 */
 
 /*表结构插入*/
-DROP TABLE IF EXISTS `u_permission`;
+DROP TABLE IF EXISTS `counry_code`;
 
-CREATE TABLE `u_permission` (
+CREATE TABLE `counry_code` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `url` varchar(256) DEFAULT NULL COMMENT 'url地址',
-  `name` varchar(64) DEFAULT NULL COMMENT 'url描述',
+  `country` varchar(256) DEFAULT NULL COMMENT '国家',
+  `code` varchar(64) DEFAULT NULL COMMENT '代码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_role` */
+DROP TABLE IF EXISTS `service_mode`;
 
-DROP TABLE IF EXISTS `u_role`;
-
-CREATE TABLE `u_role` (
+CREATE TABLE `service_mode` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) DEFAULT NULL COMMENT '角色名称',
-  `type` varchar(10) DEFAULT NULL COMMENT '角色类型',
+  `servicemode` varchar(256) DEFAULT NULL COMMENT '服务方式',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `Logistics_mode`;
+
+CREATE TABLE `Logistics_mode` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Logistics` varchar(256) DEFAULT NULL COMMENT '物流方式',
+  `servicemode` varchar(256) DEFAULT NULL COMMENT '服务方式',  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_role_permission` */
 
-DROP TABLE IF EXISTS `u_role_permission`;
+DROP TABLE IF EXISTS `postage_calc_mode`;
 
-CREATE TABLE `u_role_permission` (
-  `rid` bigint(20) DEFAULT NULL COMMENT '角色ID',
-  `pid` bigint(20) DEFAULT NULL COMMENT '权限ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_user` */
-
-DROP TABLE IF EXISTS `u_user`;
-
-CREATE TABLE `u_user` (
+CREATE TABLE `postage_calc_mode` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(20) DEFAULT NULL COMMENT '用户昵称',
-  `email` varchar(128) DEFAULT NULL COMMENT '邮箱|登录帐号',
-  `pswd` varchar(32) DEFAULT NULL COMMENT '密码',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `status` bigint(1) DEFAULT '1' COMMENT '1:有效，0:禁止登录',
+  `countrycode` varchar(64) DEFAULT NULL COMMENT '国家编码',
+  `servicemode` varchar(256) DEFAULT NULL COMMENT '服务方式',    
+  `Logistics` varchar(256) DEFAULT NULL COMMENT '物流方式',  
+  `calculation` varchar(256) DEFAULT NULL COMMENT '计算方法',  
+
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_user_role` */
 
-DROP TABLE IF EXISTS `u_user_role`;
+DROP TABLE IF EXISTS `postage_value`;
+CREATE TABLE `postage_value` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `weight` bigint(20) DEFAULT NULL COMMENT '重量',    
+  `countrycode` varchar(64) DEFAULT NULL COMMENT '国家编码',
+  `servicemode` varchar(256) DEFAULT NULL COMMENT '服务方式',    
+  `Logistics` varchar(256) DEFAULT NULL COMMENT '物流方式',  
+  `calculation` varchar(256) DEFAULT NULL COMMENT '邮费值',  
 
-CREATE TABLE `u_user_role` (
-  `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
-  `rid` bigint(20) DEFAULT NULL COMMENT '角色ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="context1">
+		<jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/shiro_demo"
+			driverClass="com.mysql.jdbc.Driver" password="" userId="root" />
+		<javaModelGenerator targetPackage="com.sojson.common.model"
+			targetProject="Yuantai_SpringMVC_Mbatis" />
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="Yuantai_SpringMVC_Mbatis" />
+		<javaClientGenerator targetPackage="com.sojson.common.mapper"
+			targetProject="Yuantai_SpringMVC_Mbatis" type="XMLMAPPER" />
+
+		<table tableName="counry_code" domainObjectName="CountrtyCode"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>		
+		<table tableName="logistics_mode" domainObjectName="LogisticsMode"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>	
+		<table tableName="postage_calc_mode" domainObjectName="PostageCalcMode"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>	
+			
+		<table tableName="postage_value" domainObjectName="PostageValue"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>															
+																	
+	</context> 
+</generatorConfiguration>
