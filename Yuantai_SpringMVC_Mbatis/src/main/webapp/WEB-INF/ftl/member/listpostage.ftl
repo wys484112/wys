@@ -77,7 +77,7 @@
 									<td>${it.weight?default('')}</td>
 									<td>${it.countrycode?default('未设置')}</td>
 									<td>${it.servicemode?default('未设置')}</td>									
-									<td>${it.Logistics?default('未设置')}</td>
+									<td>${it.logistics?default('未设置')}</td>
 									<td>${it.calculation?default('未设置')}</td>
 			
 								</tr>

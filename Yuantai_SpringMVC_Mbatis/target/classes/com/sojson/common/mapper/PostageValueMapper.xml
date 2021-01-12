@@ -51,7 +51,7 @@
  	 select count(id) from  postage_value
   	<include refid="where_all" />
   </select>
-  
+
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
