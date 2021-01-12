@@ -135,8 +135,8 @@ public class PostageServiceImpl extends BaseMybatisDao<PostageValueMapper> imple
 	@Override
 	public Map<String, Object> insertPostageValueTable() {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
-		
-		int weightAll = 3;
+		postageValueMapper.truncateTable();
+		int weightAll = 1000*2;
 	
 		List<ServiceMode> serviceModes = serviceModeMapper.selectAllServiceMode();
 		int serviceModeNUM = serviceModes.size();
@@ -200,6 +200,8 @@ public class PostageServiceImpl extends BaseMybatisDao<PostageValueMapper> imple
 		ScriptEngine engine = manager.getEngineByName("js");
 		engine.put("x", weight);
 		// 新方法，如果不需要四舍五入，可以使用RoundingMode.DOWN
+		LoggerUtils.fmtDebug(getClass(), "bbbbb sdfafdsdfasffsf   %s",calcmode);
+
 		BigDecimal bg = new BigDecimal(((double) (engine.eval(calcmode)))).setScale(3, RoundingMode.DOWN);
 		double result = bg.doubleValue();
 		return result;

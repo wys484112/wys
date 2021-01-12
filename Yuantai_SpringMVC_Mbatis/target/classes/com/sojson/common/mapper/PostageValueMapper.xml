@@ -52,7 +52,11 @@
   	<include refid="where_all" />
   </select>
 
-  
+	  <!-- 清空表数据 -->
+	<update id="truncateTable">
+	truncate table postage_value
+	</update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated
